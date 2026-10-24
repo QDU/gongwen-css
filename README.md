@@ -52,7 +52,7 @@ import '@qdu/gongwen-css';
 
 ## 纸张与页面外观
 
-`gongwen.css` 只负责 A4 纸本身：纸宽、页边距（以内边距实现）、文字排版和版记、表格等的线条。除下文的声明文字外，它不设置任何颜色、背景、阴影或纸张位置；文字和线条沿用继承的颜色（线条为 `currentColor`）。纸张放在页面上的样子（桌面背景、白纸、居中、阴影、窄屏边距、附件之间的屏幕分隔线）以及打印时清除 `body` 默认外边距，都由使用它的页面设置；示例模板 `src/markdown-template.html` 内含自己的 `<style>`，例如：
+`gongwen.css` 只负责 A4 纸本身：纸宽、页边距（以内边距实现）、文字排版和版记、表格等的线条。除下文的声明文字外，它不设置任何颜色、背景、阴影或纸张位置；文字和线条沿用继承的颜色（线条为 `currentColor`）。纸张放在页面上的样子（桌面背景、白纸、居中、阴影、窄屏边距、附件之间的屏幕分隔线）以及打印时清除 `body` 默认外边距，都由使用它的页面设置，可写在页面的 `<style>` 中，也可放在单独的样式表里。本项目两种方式都有：示例模板 `src/markdown-template.html` 使用内嵌 `<style>`，编写指南 `src/guide.html` 则引用独立的 `src/guide.css`（构建后为 `dist/guide.css`）。示例模板中的写法如下：
 
 ```html
 <style>
@@ -154,7 +154,7 @@ python3 -m http.server 8000 --directory dist
 
 所有独立示例正文放在 `samples/` 下的 `.md` 文件中，支持子目录。构建时使用 `src/markdown-template.html` 生成同路径的 `dist/samples/*.html`，并生成示例列表。`samples/index.md` 为列表页面保留，请勿使用。指南的元素教学示例仍保留在 `src/guide.html` 的 `<template>` 中。
 
-示例模板内的 CSS 负责纸张外观、导航和打印页面重置；公文正文通过 `gongwen.css` 排版。指南的页面样式独立存放在 `src/guide.css`。
+示例模板内嵌的 `<style>` 负责纸张外观、导航和打印页面重置；公文正文通过 `gongwen.css` 排版。编写指南 `src/guide.html` 不内嵌样式，而是引用 `gongwen.css` 和 `guide.css`；指南的界面和预览纸张样式都在 `src/guide.css` 中修改。
 
 每个示例必须提供 YAML front matter 的 `title`。模板会生成文章标题，正文从 `##`（一级正文标题）开始，依次使用 `###`、`####`、`#####`。版记字段可省略；提供 `banji` 时，`issuer` 和 `issued` 必填，`cc` 为可选列表，`proofread` 为可选的初校/终校信息。生成的版记按第 7.4.3 条排列：抄送、初校/终校、印发机关和印发日期（紧贴末条分隔线）：
 
