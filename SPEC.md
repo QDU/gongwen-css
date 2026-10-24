@@ -121,7 +121,7 @@
 | 取消编号 | — | 在 h2–h5 上使用 `.gw-nonum` | `counter-increment: none`、`::before { content: none }` |
 | 黑体引导语 | `strong` | — | 黑体、正常字重 |
 | 楷体引导语 | `em` | `strong.gw-kai` | 楷体、正体、正常字重 |
-| 专栏 | `aside` | `.gw-box` | `margin: 0 4.4pt; border: 0.75pt solid currentColor; padding: 0 5.4pt; box-decoration-break: clone`（同时提供 Safari 使用的 `-webkit-` 形式）；`letter-spacing: calc(var(--gw-box-char) - var(--gw-font-size))`；`p` 缩进 `2 * --gw-box-char` |
+| 专栏 | `aside` | `.gw-box` | `margin: 0 4.4pt; border: 0.75pt solid currentColor; padding: 0 5.4pt; box-decoration-break: clone`（同时提供 Safari 使用的 `-webkit-` 形式）；打印时底边框透明，以 `box-shadow: inset 0 -0.75pt currentColor` 在各分页片段内部绘制底线，避免页边缘裁切；`letter-spacing: calc(var(--gw-box-char) - var(--gw-font-size))`；`p` 缩进 `2 * --gw-box-char` |
 | 专栏标题 | `aside > header` | `.gw-box .gw-box-title` | 黑体、居中、缩进为 0、`margin: 0 -5.4pt`（占满专栏宽度，下方无间隙）、`padding-top: 5pt; line-height: 25pt`、`border-bottom: 0.75pt solid currentColor`、`break-after: avoid` |
 | 附件说明 | 包含 `<dt>附件：</dt>` 和若干 `dd` 的 `dl` | `.gw-attachment-note`（单个附件，使用 `p`）/ 包含 `.gw-attachments-label` + `ol > li` 的 `.gw-attachments`（多个附件） | 上外边距为 1 行；网格第一列宽 `5 * --gw-char`（放置标签，左内边距为 2 字），第二列放置条目。只有一个 `dd` 时不编号；两个及以上时（`dl:has(> dd + dd)`），每个条目使用宽度为 `--gw-att-marker` 的悬挂编号 `counter(gw-att) "."`，使换行后的文字与编号后的正文对齐。`.gw-attachment-note`：`padding-left: 5 chars; text-indent: -3 chars`。 |
 | 落款（无印章） | 包含 `<span>署名</span><time>日期</time>` 的 `address` | 包含 `.gw-sign-org`、`.gw-sign-date` 的 `.gw-signoff` | `display: table`、`margin: var(--gw-line) calc(2 * var(--gw-char)) 0 auto`、正体；子元素为块级、居中、不换行、缩进为 0。右边缘距页边距 2 字，较短的一行相对于较长的一行居中。 |
