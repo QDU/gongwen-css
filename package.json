@@ -1,0 +1,50 @@
+{
+  "name": "gongwen-css",
+  "version": "0.1.0",
+  "description": "GB/T 9704—2012 党政机关公文格式的网页与打印样式表",
+  "keywords": [
+    "css",
+    "less",
+    "print",
+    "gongwen",
+    "公文",
+    "GB/T 9704",
+    "chinese",
+    "typography"
+  ],
+  "license": "MIT",
+  "author": "Yinchuan Song",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/QDU/gongwen-css.git"
+  },
+  "homepage": "https://github.com/QDU/gongwen-css#readme",
+  "bugs": "https://github.com/QDU/gongwen-css/issues",
+  "type": "module",
+  "main": "dist/gongwen.css",
+  "style": "dist/gongwen.css",
+  "exports": {
+    ".": "./dist/gongwen.css",
+    "./gongwen.css": "./dist/gongwen.css",
+    "./gongwen.less": "./src/gongwen.less",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/gongwen.css",
+    "src/gongwen.less"
+  ],
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test",
+    "prepack": "npm run build"
+  },
+  "devDependencies": {
+    "less": "^4.9.1",
+    "markdown-it": "^15.0.3",
+    "markdown-it-container": "^4.0.0",
+    "yaml": "^2.9.1"
+  }
+}

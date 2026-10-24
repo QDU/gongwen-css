@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="{{base}}gongwen.css">
+    <style>
+      /* The desk around the A4 sheet; gongwen.css styles only the sheet. */
+      @media screen {
+        body {
+          margin: 0;
+          background: #eee;
+        }
+
+        .gongwen {
+          margin: 0 auto;
+          max-width: 100%;
+          background-color: #fff;
+          color: #000;
+          box-shadow: 0 2px 12px rgb(0 0 0 / 12%);
+        }
+
+        .gongwen > section,
+        .gongwen .gw-attachment-no {
+          margin-top: 60pt;
+          border-top: 1px dashed #ccc;
+          padding-top: 30pt;
+        }
+      }
+
+      @media screen and (max-width: 210mm) {
+        .gongwen {
+          padding: 16px;
+          box-shadow: none;
+        }
+      }
+
+      @media print {
+        html,
+        body {
+          margin: 0;
+          padding: 0;
+          background: #fff;
+        }
+      }
+      .sample-nav { padding: 16px; font: 16px/1.5 sans-serif; text-align: center; }
+      .sample-nav button { font: inherit; }
+      @media print { .sample-nav { display: none; } }
+    </style>
+  </head>
+  <body>
+    <nav class="sample-nav"><a href="{{base}}index.html">编写指南</a> · <a href="{{base}}samples/index.html">示例列表</a> · <button type="button" id="debug-toggle" aria-pressed="false">调试视图</button></nav>
+    <article class="gongwen">
+      <header><h1>{{title}}</h1></header>
+{{content}}
+{{banji}}
+    </article>
+    <script>
+      const toggle = document.getElementById("debug-toggle");
+      toggle.addEventListener("click", () => {
+        const on = document.querySelector(".gongwen").classList.toggle("gw-debug");
+        toggle.setAttribute("aria-pressed", on);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>公文 HTML 编写指南</title>
+    <link rel="stylesheet" href="gongwen.css">
+    <link rel="stylesheet" href="guide.css">
+  </head>
+  <body>
+    <main class="guide">
+      <h1>公文 HTML 编写指南</h1>
+      <p><a href="samples/index.html">查看 Markdown 示例</a></p>
+      <p>引用 <code>gongwen.css</code>，并将一份公文放在单个 <code>&lt;article class="gongwen"&gt;</code> 中。优先使用下表中的 HTML5 结构；标题编号、缩进、表格和打印分页由样式自动处理。每个示例的源码都直接从其模板生成。</p>
+
+      <h2>HTML5 约定</h2>
+      <p>公文标题、主送机关和正文按文档层级选用元素；需要改变默认语义结构时，再使用可选的 <code>gw-*</code> 类钩子。</p>
+      <table class="reference">
+        <thead>
+          <tr><th>内容</th><th>默认写法</th><th>样式行为</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>公文标题</td><td><code>&gt; header &gt; h1</code> 或根下 <code>h1</code></td><td>居中，二号小标宋</td></tr>
+          <tr><td>主送机关</td><td>标题后面的 <code>header &gt; p</code></td><td>不缩进</td></tr>
+          <tr><td>正文</td><td><code>p</code></td><td>首行缩进两字</td></tr>
+          <tr><td>标题层级</td><td><code>h2</code> 至 <code>h5</code></td><td>依次自动编号“一、”“（一）”“1.”“（1）”</td></tr>
+          <tr><td>黑体 / 楷体引导语</td><td><code>strong</code> / <code>em</code></td><td>楷体 <code>em</code> 会取消浏览器默认斜体</td></tr>
+          <tr><td>专栏</td><td><code>aside</code>，标题为其直接子级 <code>header</code></td><td>细边框专栏</td></tr>
+          <tr><td>附件说明</td><td><code>dl</code>，含一个 <code>dt</code> 和一个或多个 <code>dd</code></td><td>单个附件不编号，多个自动编号</td></tr>
+          <tr><td>落款</td><td><code>address</code>，含署名 <code>span</code> 和日期 <code>time</code></td><td>居中对齐，<code>gw-sealed</code> 表示有印章</td></tr>
+          <tr><td>附件</td><td><code>section &gt; header</code> 中放顺序号和标题</td><td>打印时另起一页，标题计数器重置</td></tr>
+          <tr><td>版记</td><td>根元素最后的 <code>footer</code></td><td>自动排到版记专用页</td></tr>
+          <tr><td>表格</td><td><code>table</code>、<code>thead</code>、<code>th</code>、<code>td</code></td><td>三线表样式</td></tr>
+        </tbody>
+      </table>
+
+      <h2>可选类钩子</h2>
+      <p>以下旧类仍可用于兼容已有或无法采用默认结构的内容。它们不是常规 HTML5 写法的必需项。</p>
+      <table class="reference">
+        <thead><tr><th>类</th><th>用途</th></tr></thead>
+        <tbody>
+          <tr><td><code>gw-title</code>, <code>gw-addressee</code>, <code>gw-noindent</code></td><td>标题、主送机关和取消正文缩进</td></tr>
+          <tr><td><code>gw-nonum</code></td><td>标题不显示编号且不增加计数</td></tr>
+          <tr><td><code>gw-kai</code></td><td>与 <code>strong</code> 搭配，兼容旧楷体引导语</td></tr>
+          <tr><td><code>gw-box</code>, <code>gw-box-title</code></td><td>旧式专栏容器及标题</td></tr>
+          <tr><td><code>gw-attachment-note</code>, <code>gw-attachments</code></td><td>旧式附件说明和附件列表</td></tr>
+          <tr><td><code>gw-signoff</code>, <code>gw-sign-org</code>, <code>gw-sign-date</code>, <code>gw-sealed</code></td><td>旧式落款</td></tr>
+          <tr><td><code>gw-attachment-no</code>, <code>gw-attachment-title</code></td><td>旧式附件顺序号和标题</td></tr>
+          <tr><td><code>gw-banji</code>, <code>gw-banji-rows</code>, <code>gw-banji-cc</code>, <code>gw-banji-issue</code>, <code>gw-banji-note</code></td><td>旧式版记</td></tr>
+        </tbody>
+      </table>
+
+      <h2>标题和主送机关</h2>
+      <p>把公文标题与主送机关放在根元素的直接子级 <code>header</code> 中。标题后面的段落自动取消首行缩进。</p>
+      <div class="example-row">
+        <pre><code></code></pre>
+        <div class="preview"></div>
+        <template>
+          <article class="gongwen">
+            <header>
+              <h1>关于加强非物质文化遗产保护工作的通知</h1>
+              <p>各省、自治区、直辖市文化和旅游厅（局）：</p>
+            </header>
+            <p>现就有关事项通知如下。</p>
+          </article>
+        </template>
+      </div>
+
+      <h2>正文段落</h2>
+      <p>普通段落首行缩进两字。表格、页眉页脚、落款和定义列表中的内容不缩进。</p>
+      <div class="example-row">
+        <pre><code></code></pre>
+        <div class="preview"></div>
+        <template>
+          <article class="gongwen">
+            <p>坚持保护为主、抢救第一、合理利用、传承发展的工作方针，推动非物质文化遗产保护传承事业高质量发展。</p>
+            <p>本段同样采用正文首行缩进。</p>
+          </article>
+        </template>
+      </div>
+
+      <h2>不套用公文样式（gw-raw）</h2>
+      <p>把不应套用公文版式的内容放进 <code>gw-raw</code>。其中的标题不编号，段落不缩进；默认显示浏览器样式，也可由宿主站点单独设置。</p>
+      <div class="example-row">
+        <pre><code></code></pre>
+        <div class="preview"></div>
+        <template>
+          <article class="gongwen">
+            <p>这段正文使用公文样式。</p>
+            <div class="gw-raw">
+              <h2>普通内容标题</h2>
+              <p>这段内容不使用公文样式。</p>
+            </div>
+            <p>这段正文继续使用公文样式。</p>
+          </article>
+        </template>
+      </div>
+
+      <h2>四级自动编号标题</h2>
+      <p>按层级使用 <code>h2</code> 至 <code>h5</code>；计数器会在进入下一级标题时重置更低级序号。标题加 <code>gw-nonum</code> 可取消显示和递增。</p>
+      <div class="example-row">
+        <pre><code></code></pre>
+        <div class="preview"></div>
+        <template>
+          <article class="gongwen">
+            <h2>总体要求</h2>
+            <h3>指导思想</h3>
+            <h3>工作原则</h3>
+            <h4>坚持党的领导</h4>
+            <h5>完善工作机制</h5>
+            <h3 class="gw-nonum">不编号的小标题</h3>
+            <h2>重点任务</h2>
+            <h3>保护传承</h3>
+          </article>
+        </template>
+      </div>
+
+      <h2>黑体和楷体引导语</h2>
+      <p><code>strong</code> 使用黑体，<code>em</code> 使用楷体且保持正体，二者都可直接嵌在正文段落中。</p>
+      <div class="example-row">
+        <pre><code></code></pre>
+        <div class="preview"></div>
+        <template>
+          <article class="gongwen">
+            <p><strong>坚持党的领导。</strong>把党的领导贯穿保护传承工作各方面全过程。</p>
+            <p><em>加强调查记录建档。</em>持续完善非遗档案制度和标准规范。</p>
+          </article>
+        </template>
+      </div>
+
+      <h2>专栏</h2>
+      <p>用 <code>aside</code> 表示专栏，直接子级 <code>header</code> 是专栏标题，其余段落按专栏字数排版。</p>
+      <div class="example-row">
+        <pre><code></code></pre>
+        <div class="preview"></div>
+        <template>
+          <article class="gongwen">
+            <aside>
+              <header>专栏 1　非遗普查</header>
+              <p><strong>开展普查：</strong>全面掌握非遗资源总体情况，完善调查记录和档案建设。</p>
+            </aside>
+          </article>
+        </template>
+      </div>
+
+      <h2>表格</h2>
+      <p>使用原生表格语义。表头下方和表格上下方显示横线，第一列右侧显示竖线。</p>
+      <div class="example-row">
+        <pre><code></code></pre>
+        <div class="preview"></div>
+        <template>
+          <article class="gongwen">
+            <table>
+              <thead><tr><th>类别</th><th>保护措施</th></tr></thead>
+              <tbody>
+                <tr><td>传统技艺</td><td>记录工艺流程，支持传承实践。</td></tr>
+                <tr><td>传统戏剧</td><td>开展展演交流，培养青年人才。</td></tr>
+              </tbody>
+            </table>
+          </article>
+        </template>
+      </div>
+
+      <h2>附件说明：单个附件</h2>
+      <p>一个 <code>dd</code> 不自动编号。定义列表的第一列放“附件：”，正文从第二列开始。</p>
+      <div class="example-row">
+        <pre><code></code></pre>
+        <div class="preview"></div>
+        <template>
+          <article class="gongwen">
+            <dl>
+              <dt>附件：</dt>
+              <dd>非物质文化遗产项目申报材料。</dd>
+            </dl>
+          </article>
+        </template>
+      </div>
+
+      <h2>附件说明：多个附件</h2>
+      <p>两个或更多 <code>dd</code> 自动生成 1.、2. 序号，续行与附件文字对齐；十个及以上附件可增大 <code>--gw-att-marker</code>。</p>
+      <div class="example-row">
+        <pre><code></code></pre>
+        <div class="preview"></div>
+        <template>
+          <article class="gongwen">
+            <dl>
+              <dt>附件：</dt>
+              <dd>非遗项目保护单位申报表。</dd>
+              <dd>非遗代表性传承人推荐材料及相关证明。</dd>
+            </dl>
+          </article>
+        </template>
+      </div>
+
+      <h2>落款：无印章和有印章</h2>
+      <p>用 <code>address</code> 包含署名机关与日期。日期使用 <code>time</code>；加 <code>gw-sealed</code> 可为印章留出位置。</p>
+      <div class="example-row">
+        <pre><code></code></pre>
+        <div class="preview"></div>
+        <template>
+          <article class="gongwen">
+            <address>
+              <span>文化和旅游部</span>
+              <time datetime="2026-09-21">2026年9月21日</time>
+            </address>
+            <address class="gw-sealed">
+              <span>文化和旅游部办公厅</span>
+              <time datetime="2026-09-21">2026年9月21日</time>
+            </address>
+          </article>
+        </template>
+      </div>
+
+      <h2>附件页</h2>
+      <p>将附件内容放进 <code>section</code>。屏幕上显示分隔线，打印时附件另起一页，并重新开始标题编号。</p>
+      <div class="example-row">
+        <pre><code></code></pre>
+        <div class="preview"></div>
+        <template>
+          <article class="gongwen">
+            <section>
+              <header>
+                <p>附件 1</p>
+                <h1>非物质文化遗产项目申报表</h1>
+              </header>
+              <h2>基本信息</h2>
+              <p>项目名称、类别及保护单位。</p>
+            </section>
+          </article>
+        </template>
+      </div>
+
+      <h2>版记</h2>
+      <p>根元素最后一个 <code>footer</code> 会使用版记专用页。前两段形成三条分隔线，包含 <code>time</code> 的行会左右对齐。</p>
+      <div class="example-row">
+        <pre><code></code></pre>
+        <div class="preview"></div>
+        <template>
+          <article class="gongwen">
+            <footer>
+              <p>抄送：有关单位。</p>
+              <small>初校：赵姗姗　　终校：王辉</small>
+              <p><span>文化和旅游部办公厅</span><time datetime="2026-09-21">2026年9月21日印发</time></p>
+            </footer>
+          </article>
+        </template>
+      </div>
+
+      <h2>调试视图（gw-debug）</h2>
+      <p>在根元素加 <code>gw-debug</code> 显示排版网格和元素框：蓝色竖线为字距网格，红色横线为行距网格，绿色虚线为块级元素，黄色底为行内元素，紫色底为自动编号。只绘制背景和轮廓，不改变排版；网格按正文字号和行距绘制，专栏和版记使用各自的字距行距。</p>
+      <div class="example-row">
+        <pre><code></code></pre>
+        <div class="preview"></div>
+        <template>
+          <article class="gongwen gw-debug">
+            <h2>总体要求</h2>
+            <p>到2030年，初步形成<strong>非遗系统性保护</strong>新格局，非遗保护传承体制机制更加完善。</p>
+            <h3>完善保护体系</h3>
+          </article>
+        </template>
+      </div>
+
+      <h2>首页隐藏页码</h2>
+      <p>默认每页都有页码。需要隐藏首页页码时，在公文根元素上增加 <code>gw-no-first-page-number</code>；后续页仍按奇偶页显示页码。</p>
+      <div class="example-row">
+        <pre><code></code></pre>
+        <div class="source-only">此根类只切换首页页码显示，不改变纸张尺寸、边距、版心或后续页码。</div>
+        <template data-source-only>
+          <article class="gongwen gw-no-first-page-number">
+            <p>本公文首页不显示页码。</p>
+          </article>
+        </template>
+      </div>
+
+      <h2>旧类钩子组合示例</h2>
+      <p>以下演示旧式类名仍然有效。新内容应优先采用上面的语义化结构。</p>
+      <div class="example-row">
+        <pre><code></code></pre>
+        <div class="preview"></div>
+        <template>
+          <article class="gongwen">
+            <h1 class="gw-title">关于保护传承工作的通知</h1>
+            <p class="gw-addressee">各有关单位：</p>
+            <p class="gw-noindent">现将有关事项通知如下。</p>
+            <h2 class="gw-nonum">不编号的标题</h2>
+            <p><strong class="gw-kai">加强记录建档。</strong>完善工作制度。</p>
+            <aside class="gw-box">
+              <p class="gw-box-title">专栏标题</p>
+              <p>专栏正文内容。</p>
+            </aside>
+            <p class="gw-attachment-note">附件：项目申报材料。</p>
+            <div class="gw-attachments">
+              <span class="gw-attachments-label">附件：</span>
+              <ol><li>项目申报材料。</li><li>项目情况说明。</li></ol>
+            </div>
+            <p class="gw-attachment-no">附件 1</p>
+            <p class="gw-attachment-title">项目申报表</p>
+            <div class="gw-signoff">
+              <p class="gw-sign-org">文化和旅游部</p>
+              <p class="gw-sign-date">2026年9月21日</p>
+            </div>
+            <footer class="gw-banji">
+              <div class="gw-banji-rows">
+                <p class="gw-banji-cc">抄送：有关单位。</p>
+                <p class="gw-banji-note">初校：赵姗姗　　终校：王辉</p>
+                <p class="gw-banji-issue"><span>文化和旅游部办公厅</span><span>2026年9月21日印发</span></p>
+              </div>
+            </footer>
+          </article>
+        </template>
+      </div>
+
+      <h2>打印、字体和浏览器</h2>
+      <p>打印选择 A4、100% 缩放、“默认”页边距，并关闭浏览器页眉页脚。版记会另起偶数页；版记页和其前的空白页不显示页码。页码边距框要求 Chromium 131 或更新版本。</p>
+      <p>ASCII 字母、数字和标点优先使用 SimSun（宋体）。建议安装 SimSun 以获得一致的字形；未安装时使用系统中可用的宋体回退。Less 构建时展开嵌套；CSS 使用原生 <code>@scope</code>，需要 Chrome 118+、Safari 17.4+ 或 Firefox 146+。</p>
+      <p class="guide-note">Chrome 打印预览中的纸张边距应保持“默认”，不要再叠加自定义浏览器页边距。</p>
+    </main>
+    <script>
+      function dedent(markup) {
+        const lines = markup.replace(/^\s*\n|\n\s*$/g, "").split("\n");
+        const nonempty = lines.filter((line) => line.trim());
+        const indent = Math.min(...nonempty.map((line) => line.match(/^\s*/)[0].length));
+        return lines.map((line) => line.slice(indent)).join("\n").trim();
+      }
+
+      document.querySelectorAll(".example-row").forEach((row) => {
+        const template = row.querySelector(":scope > template");
+        row.querySelector("pre code").textContent = dedent(template.innerHTML);
+        if (!template.hasAttribute("data-source-only")) {
+          row.querySelector(".preview").append(template.content.firstElementChild.cloneNode(true));
+        }
+      });
+    </script>
+  </body>
+</html>

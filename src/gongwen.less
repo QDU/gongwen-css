@@ -1,0 +1,624 @@
+// Build-time constants. Keep --gw-* custom properties for runtime overrides.
+@paper-width: 210mm;
+@paper-height: 297mm;
+// GB/T 9704-2012 §5.2.1: 156 × 225mm type area on A4.
+@margin-top: 37mm;
+@margin-right: 26mm;
+@margin-bottom: 35mm;
+@margin-left: 28mm;
+@content-width: (@paper-width - @margin-left - @margin-right);
+@content-height: (@paper-height - @margin-top - @margin-bottom);
+
+// §5.2.2: 三号仿宋 (16pt) is the general default.
+@body-font-size: 16pt;
+@title-font-size: 22pt;
+
+@rule-thin: 0.75pt solid currentColor;
+@rule-thick: 1.5pt solid currentColor;
+@cell-padding: 5.4pt;
+@compact-line: 25pt;
+@banji-font-size: 14pt;
+@banji-row-padding: 1.5pt 16pt 0;
+// §7.4.1: recommended heights for the thick (首条/末条) and thin rules.
+@banji-rule-thick: 0.35mm solid currentColor;
+@banji-rule-thin: 0.25mm solid currentColor;
+@debug-grid-width: 0.5pt;
+
+// GB/T 9704-2012 §7.5: 四号半角宋体页码；一字线上距版心下边缘 7mm；
+// 单页码居右空一字，双页码居左空一字（一字取页码字号）。
+@page-number-size: 14pt;
+@page-number-rule-gap: 7mm;
+@page-number-indent: @page-number-size;
+// SimSun's em dash sits about 0.43em below the top of a line-height: 1 box.
+@page-number-dash-offset: (0.43 * @page-number-size);
+@notice-font-size: 9pt;
+@notice-color: #c8c8c8;
+@notice-svg-color: replace("@{notice-color}", "#", "%23");
+@notice-text: "本页由 gongwen-css 项目排版生成，不得视为正式公文";
+
+@font-song: "GW Song", "宋体", SimSun, "Songti SC", STSong, "Noto Serif CJK SC Regular", "NotoSerifCJKsc-Regular", "Source Han Serif SC Regular", serif;
+@song-sources: local("SimSun"), local("宋体"), local("NSimSun"), local("STSong"),
+    local("Songti SC Regular"), local("Noto Serif CJK SC Regular"),
+    local("NotoSerifCJKsc-Regular"), local("Source Han Serif SC Regular");
+
+@font-face {
+  font-family: "GW Song";
+  src: @song-sources;
+}
+
+@font-face {
+  font-family: "GW Latin";
+  src: @song-sources;
+  unicode-range: U+0021-007E; /* not U+0020: keeps 方正 fonts as the primary font for line metrics */
+}
+
+@layer gongwen {
+@scope (.gongwen) to (.gw-raw) {
+/* Page typography and paper */
+/* Divide the type area into 22 line boxes and 28 character advances. */
+:scope {
+  --gw-font-size: @body-font-size;
+  --gw-lines: 22;
+  // Leave room for cloned aside borders and fractional print-layout rounding.
+  --gw-page-slack: 2pt;
+  --gw-line: calc((@content-height - var(--gw-page-slack)) / var(--gw-lines));
+  --gw-chars: 28;
+  --gw-char: calc(@content-width / var(--gw-chars));
+  --gw-box-char: calc((@content-width - 21.1pt) / 25);
+  --gw-att-marker: calc(1 * var(--gw-char));
+  --gw-font-fangsong: "GW Latin", "方正仿宋_GBK", "FZFangSong-Z02", "仿宋_GB2312", "仿宋", FangSong, STFangsong, "FangSong_GB2312", serif;
+  --gw-font-hei: "GW Latin", "方正黑体_GBK", "FZHei-B01", "黑体", SimHei, "Heiti SC", STHeiti, "Noto Sans CJK SC", "Source Han Sans SC", sans-serif;
+  --gw-font-kai: "GW Latin", "方正楷体_GBK", "FZKai-Z03", "楷体_GB2312", "楷体", KaiTi, STKaiti, "Kaiti SC", serif;
+  --gw-font-xbs: "方正小标宋_GBK", "方正小标宋简体", "FZXiaoBiaoSong-B05S", "华文中宋", STZhongsong, "宋体", SimSun, "Noto Serif CJK SC", serif;
+  --gw-font-song: @font-song;
+
+  /* Notice in the side margins, against passing pages off as real 公文.
+     Screen and print share @notice-text and @notice-color. */
+  --gw-mark-left: none;
+  --gw-mark-right: none;
+  --gw-debug-cols: none;
+  --gw-debug-rows: none;
+
+  box-sizing: border-box;
+  width: @paper-width;
+  padding: @margin-top @margin-right @margin-bottom @margin-left;
+  font-family: var(--gw-font-fangsong);
+  font-size: var(--gw-font-size);
+  font-weight: normal;
+  line-height: var(--gw-line);
+  letter-spacing: calc(var(--gw-char) - var(--gw-font-size));
+  text-align: justify;
+  hanging-punctuation: allow-end;
+  text-autospace: normal;
+  line-break: strict;
+  word-break: normal;
+  overflow-wrap: break-word;
+  counter-reset: gw-h2 gw-h3 gw-h4 gw-h5;
+  background-image: var(--gw-debug-cols), var(--gw-debug-rows), var(--gw-mark-left), var(--gw-mark-right);
+  background-origin: content-box, content-box, border-box, border-box;
+  background-clip: content-box, content-box, border-box, border-box;
+  background-position: 0 0, 0 0, left center, right center;
+  background-repeat: repeat, repeat, repeat-y, repeat-y;
+  background-size: auto, auto, @margin-left @paper-height, @margin-right @paper-height;
+
+  @media screen and (min-width: @paper-width) {
+    --gw-mark-left: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 28 297' width='28mm' height='297mm'%3E%3Ctext x='14' y='148.5' transform='rotate(90 14 148.5)' text-anchor='middle' dominant-baseline='central' font-size='3.175' letter-spacing='0.353' fill='@{notice-svg-color}' font-family='SimSun, 宋体, Songti SC, STSong, Noto Serif CJK SC, serif'%3E@{notice-text}%3C/text%3E%3C/svg%3E");
+    --gw-mark-right: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 26 297' width='26mm' height='297mm'%3E%3Ctext x='13' y='148.5' transform='rotate(270 13 148.5)' text-anchor='middle' dominant-baseline='central' font-size='3.175' letter-spacing='0.353' fill='@{notice-svg-color}' font-family='SimSun, 宋体, Songti SC, STSong, Noto Serif CJK SC, serif'%3E@{notice-text}%3C/text%3E%3C/svg%3E");
+  }
+
+  & *,
+  & *::before,
+  & *::after {
+    box-sizing: border-box;
+  }
+
+  & p {
+    margin: 0;
+    text-indent: calc(2 * var(--gw-char));
+  }
+
+  /* Title, addressee, and unindented content */
+  & > header > h1,
+  & > h1,
+  & .gw-title {
+    margin: 0 0 var(--gw-line);
+    font-family: var(--gw-font-xbs);
+    font-size: @title-font-size;
+    font-weight: normal;
+    line-height: var(--gw-line);
+    text-align: center;
+    text-indent: 0;
+  }
+
+  & > header > h1 ~ p,
+  & .gw-addressee,
+  & .gw-noindent,
+  & :is(header, footer, address, dl) p {
+    text-indent: 0;
+  }
+
+  & strong {
+    font-family: var(--gw-font-hei);
+    font-weight: normal;
+  }
+
+  & em,
+  & strong.gw-kai {
+    font-family: var(--gw-font-kai);
+    font-style: normal;
+    font-weight: normal;
+  }
+
+  // Different font ascents must not enlarge the paragraph's fixed line boxes.
+  & strong,
+  & em {
+    line-height: 0;
+  }
+
+  /* Numbered headings */
+  & h2,
+  & h3,
+  & h4,
+  & h5 {
+    margin: 0;
+    font-size: var(--gw-font-size);
+    font-weight: normal;
+    line-height: var(--gw-line);
+    text-align: justify;
+    text-indent: calc(2 * var(--gw-char));
+  }
+
+  & h2 {
+    font-family: var(--gw-font-hei);
+    counter-increment: gw-h2;
+    counter-set: gw-h3 0 gw-h4 0 gw-h5 0;
+    break-after: avoid;
+    break-inside: avoid;
+  }
+
+  & h2::before {
+    content: counter(gw-h2, simp-chinese-informal) "、";
+  }
+
+  & h3 {
+    font-family: var(--gw-font-kai);
+    counter-increment: gw-h3;
+    counter-set: gw-h4 0 gw-h5 0;
+  }
+
+  & h3::before {
+    content: "（" counter(gw-h3, simp-chinese-informal) "）";
+  }
+
+  & h4,
+  & h5 {
+    font-family: var(--gw-font-fangsong);
+  }
+
+  & h4 {
+    counter-increment: gw-h4;
+    counter-set: gw-h5 0;
+  }
+
+  & h4::before {
+    content: counter(gw-h4) ".";
+  }
+
+  & h5 {
+    counter-increment: gw-h5;
+  }
+
+  & h5::before {
+    content: "（" counter(gw-h5) "）";
+  }
+
+  & .gw-nonum {
+    counter-increment: none;
+  }
+
+  & .gw-nonum::before {
+    content: none;
+  }
+
+  /* Column boxes */
+  & :is(aside, .gw-box) {
+    margin: 0 4.4pt;
+    border: @rule-thin;
+    padding: 0 @cell-padding;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    letter-spacing: calc(var(--gw-box-char) - var(--gw-font-size));
+  }
+
+  & :is(aside, .gw-box) p {
+    text-indent: calc(2 * var(--gw-box-char));
+  }
+
+  & aside > header,
+  & .gw-box .gw-box-title {
+    margin: 0 (-@cell-padding);
+    border-bottom: @rule-thin;
+    padding-top: 4pt;
+    font-family: var(--gw-font-hei);
+    line-height: @compact-line;
+    text-align: center;
+    text-indent: 0;
+    break-after: avoid;
+  }
+
+  /* 版记 */
+  & > footer,
+  & .gw-banji {
+    page: gw-banji;
+    margin-top: calc(2 * var(--gw-line));
+    font-family: var(--gw-font-fangsong);
+    font-size: @banji-font-size;
+    letter-spacing: 1pt;
+  }
+
+  // §7.4.1, §7.4.3: every row sits between rules; the issuer row comes last,
+  // directly on the thick 末条 rule.
+  & > footer > :is(p, small),
+  & .gw-banji :is(p, small) {
+    display: block;
+    margin: 0;
+    padding: @banji-row-padding;
+    font-size: @banji-font-size;
+    line-height: @compact-line;
+    text-indent: 0;
+  }
+
+  & > footer > :first-child {
+    border-top: @banji-rule-thick;
+  }
+
+  & > footer > * + * {
+    border-top: @banji-rule-thin;
+  }
+
+  & > footer > :last-child {
+    border-bottom: @banji-rule-thick;
+  }
+
+  & > footer > p:has(> time),
+  & .gw-banji-issue {
+    display: flex;
+    justify-content: space-between;
+    gap: 1em;
+  }
+
+  & .gw-banji-rows {
+    border-top: @banji-rule-thick;
+    border-bottom: @banji-rule-thick;
+  }
+
+  & .gw-banji-rows > * + * {
+    border-top: @banji-rule-thin;
+  }
+
+  /* Attachment notes */
+  & .gw-attachment-note {
+    margin-top: var(--gw-line);
+    padding-left: calc(5 * var(--gw-char));
+    text-indent: calc(-3 * var(--gw-char));
+  }
+
+  & dl:not(.gw-attachments) {
+    display: grid;
+    grid-template-columns: calc(5 * var(--gw-char)) 1fr;
+    margin: var(--gw-line) 0 0;
+  }
+
+  & dl:not(.gw-attachments) > dt {
+    padding-left: calc(2 * var(--gw-char));
+    text-indent: 0;
+  }
+
+  & dl:not(.gw-attachments) > dd {
+    grid-column: 2;
+    margin: 0;
+  }
+
+  & dl:has(> dd + dd) {
+    counter-reset: gw-att;
+  }
+
+  & dl:has(> dd + dd) > dd {
+    padding-left: var(--gw-att-marker);
+    counter-increment: gw-att;
+  }
+
+  & dl:has(> dd + dd) > dd::before {
+    display: inline-block;
+    width: var(--gw-att-marker);
+    margin-left: calc(-1 * var(--gw-att-marker));
+    content: counter(gw-att) ".";
+    white-space: nowrap;
+  }
+
+  & .gw-attachments {
+    display: grid;
+    grid-template-columns: calc(5 * var(--gw-char)) 1fr;
+    margin-top: var(--gw-line);
+  }
+
+  & .gw-attachments-label {
+    padding-left: calc(2 * var(--gw-char));
+    text-indent: 0;
+  }
+
+  & .gw-attachments ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: gw-att;
+  }
+
+  & .gw-attachments li {
+    padding-left: var(--gw-att-marker);
+    text-indent: 0;
+    counter-increment: gw-att;
+  }
+
+  & .gw-attachments li::before {
+    display: inline-block;
+    width: var(--gw-att-marker);
+    margin-left: calc(-1 * var(--gw-att-marker));
+    content: counter(gw-att) ".";
+    white-space: nowrap;
+  }
+
+  /* Signatures */
+  & address,
+  & .gw-signoff {
+    display: table;
+    margin: var(--gw-line) calc(2 * var(--gw-char)) 0 auto;
+    font-style: normal;
+  }
+
+  & address > span,
+  & address > time,
+  & .gw-sign-org,
+  & .gw-sign-date {
+    display: block;
+    text-align: center;
+    text-indent: 0;
+    white-space: nowrap;
+  }
+
+  & address.gw-sealed,
+  & .gw-signoff.gw-sealed {
+    margin-top: calc(3 * var(--gw-line));
+    margin-right: calc(4 * var(--gw-char));
+  }
+
+  & address.gw-sealed > span,
+  & .gw-signoff.gw-sealed .gw-sign-org {
+    display: flex;
+    contain: inline-size;
+    justify-content: center;
+    white-space: nowrap;
+  }
+
+  /* Attachments and tables */
+  & section {
+    counter-reset: gw-h2 gw-h3 gw-h4 gw-h5;
+  }
+
+  & section > header > p,
+  & .gw-attachment-no {
+    margin: 0;
+    font-family: var(--gw-font-hei);
+    text-align: left;
+    text-indent: 0;
+    counter-set: gw-h2 0 gw-h3 0 gw-h4 0 gw-h5 0;
+  }
+
+  & section > header > h1,
+  & .gw-attachment-title {
+    margin: var(--gw-line) 0;
+    font-family: var(--gw-font-xbs);
+    font-size: var(--gw-font-size);
+    font-weight: normal;
+    text-align: center;
+    text-indent: 0;
+  }
+
+  & .gw-attachment-title + .gw-attachment-title {
+    margin-top: 0;
+  }
+
+  & .gw-attachment-title:has(+ .gw-attachment-title) {
+    margin-bottom: 0;
+  }
+
+  & table {
+    width: 100%;
+    border-top: @rule-thick;
+    border-bottom: @rule-thick;
+    border-collapse: collapse;
+  }
+
+  & th,
+  & td {
+    padding: 0 @cell-padding;
+    text-align: justify;
+    text-indent: 0;
+    vertical-align: top;
+    font: inherit;
+    font-weight: normal;
+  }
+
+  & thead th,
+  & tr:first-child > th {
+    border-bottom: @rule-thin;
+  }
+
+  & :is(th, td):first-child {
+    border-right: @rule-thin;
+  }
+
+  & td p,
+  & th p {
+    text-indent: 0;
+  }
+
+  /* Debug view (<article class="gongwen gw-debug">): grid and outlines only, no layout change.
+     The grid shows body metrics (--gw-char, --gw-line); 专栏 and 版记 use their own pitches. */
+  &.gw-debug {
+    --gw-debug-cols: repeating-linear-gradient(to right, rgb(0 120 255 / 20%) 0 @debug-grid-width, transparent @debug-grid-width var(--gw-char));
+    --gw-debug-rows: repeating-linear-gradient(to bottom, transparent 0 calc(var(--gw-line) - @debug-grid-width), rgb(255 0 0 / 30%) calc(var(--gw-line) - @debug-grid-width) var(--gw-line));
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  &.gw-debug :is(p, h1, h2, h3, h4, h5, div, dl, dt, dd, ol, li, address, aside, header, footer, section, table, th, td, small) {
+    outline: 0.5px dashed rgb(0 150 0 / 60%);
+  }
+
+  &.gw-debug :is(strong, em, span, time) {
+    background-color: rgb(255 200 0 / 25%);
+  }
+
+  &.gw-debug :is(h2, h3, h4, h5, li, dd)::before {
+    background-color: rgb(200 0 255 / 20%);
+  }
+
+  &.gw-no-first-page-number {
+    page: gw-nofirst;
+  }
+}
+}
+
+.gongwen .gw-raw {
+  font: initial;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-indent: 0;
+  text-align: start;
+  line-break: auto;
+  hanging-punctuation: none;
+  text-spacing-trim: initial;
+  text-autospace: initial;
+  overflow-wrap: normal;
+  word-break: normal;
+  white-space: normal;
+  orphans: 2;
+  widows: 2;
+}
+
+/* Printed sheets and page numbers */
+@page {
+  size: A4;
+  margin: @margin-top @margin-right @margin-bottom @margin-left;
+
+  /* Same notice as --gw-mark-left/-right; on every printed page. */
+  @left-middle {
+    content: @notice-text;
+    writing-mode: sideways-rl;
+    font-family: @font-song;
+    font-size: @notice-font-size;
+    letter-spacing: 1pt;
+    color: @notice-color;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  @right-middle {
+    content: @notice-text;
+    writing-mode: sideways-lr;
+    font-family: @font-song;
+    font-size: @notice-font-size;
+    letter-spacing: 1pt;
+    color: @notice-color;
+    text-align: center;
+    vertical-align: middle;
+  }
+}
+
+@page :left {
+  @bottom-left {
+    content: "—" counter(page) "—";
+    font-family: @font-song;
+    font-size: @page-number-size;
+    line-height: 1;
+    vertical-align: top;
+    padding-top: calc(@page-number-rule-gap - @page-number-dash-offset);
+    padding-left: @page-number-indent;
+    text-align: left;
+  }
+}
+
+@page :right {
+  @bottom-right {
+    content: "—" counter(page) "—";
+    font-family: @font-song;
+    font-size: @page-number-size;
+    line-height: 1;
+    vertical-align: top;
+    padding-top: calc(@page-number-rule-gap - @page-number-dash-offset);
+    padding-right: @page-number-indent;
+    text-align: right;
+  }
+}
+
+@page gw-banji {
+  @bottom-left {
+    content: none;
+  }
+
+  @bottom-right {
+    content: none;
+  }
+}
+
+@page gw-nofirst:first {
+  @bottom-left {
+    content: none;
+  }
+
+  @bottom-right {
+    content: none;
+  }
+}
+
+@page :blank {
+  @bottom-left {
+    content: none;
+  }
+
+  @bottom-right {
+    content: none;
+  }
+}
+
+@media print {
+  @scope (.gongwen) to (.gw-raw) {
+  :scope {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    orphans: 1;
+    widows: 1;
+
+    & section,
+    & .gw-attachment-no {
+      break-before: page;
+    }
+
+    & > footer,
+    & .gw-banji {
+      break-before: left;
+      break-inside: avoid;
+      // §7.4.1: the 末条 rule coincides with the bottom edge of the type area.
+      height: @content-height;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      margin-top: 0;
+    }
+    }
+  }
+  }
+}
