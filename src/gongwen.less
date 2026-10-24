@@ -608,6 +608,13 @@
     orphans: 1;
     widows: 1;
 
+    & :is(aside, .gw-box) {
+      // Chromium clips cloned bottom borders at the page edge. Paint the
+      // rule inside each fragment, keeping the border's layout space.
+      border-bottom-color: transparent;
+      box-shadow: inset 0 -0.75pt currentColor;
+    }
+
     & section,
     & .gw-attachment-no {
       break-before: page;
