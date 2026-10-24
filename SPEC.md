@@ -16,7 +16,7 @@
 | `scripts/render-sample.mjs` | 解析 YAML front matter、Markdown 和专栏容器，生成版记并填充模板。 |
 | `samples/*.md` | 独立验证示例，包含 YAML front matter 和 Markdown 正文。`samples/Protection_and_inheritance_of_intangible_cultural_heritage.md` 是完整长文示例，用于核验分页、专栏、附件和版记。 |
 | `src/markdown-template.html` | 示例 HTML 模板，内含宿主页面 CSS，引用 `gongwen.css` 排版正文。 |
-| `src/guide.css` | 从指南抽取的页面样式。 |
+| `src/guide.css` | 编写指南的全部页面样式（界面布局及预览纸张），`src/guide.html` 不含内嵌 `<style>`。 |
 | `src/guide.html` | 中文帮助页面，每种元素提供一个示例。每个示例仅在 `<template>` 中编写一次，由内联脚本克隆到 `.gongwen` 实时预览中，并将转义后的源码写入旁边的 `<pre>`（双栏布局，宽度低于约 900px 时改为单栏）。指南自身的 CSS 只调整预览纸张的几何尺寸，其界面选择器不得匹配 `.gongwen` 内部元素。 |
 | `README.md` | 面向使用者和贡献者：安装、编写约定、可选类钩子、自定义参数、打印方法和开发命令。 |
 | `SPEC.md` | 本文。面向维护者：实现规则、标准条款对照和已知差异。 |
@@ -64,7 +64,7 @@
 - 公文规则位于 `@scope (.gongwen) to (.gw-raw)` 内，在 `:scope { … }` 下使用 Less 嵌套编写（构建时展开）。选择器显式写出 `:scope`/`&`，以保留类钩子（`.gw-nonum`、`.gw-sealed` 等）所依赖的选择器优先级。
 - 根元素修饰类使用根元素上的复合选择器（`&.gw-no-first-page-number`），而非后代选择器。
 - `@page` 规则位于样式层内、`@scope` 外。该层中的规则均不使用 `!important`。
-- **纸张样式的职责。** `gongwen.css` 只设置 A4 纸张及其文字的样式：尺寸、页边距（用内边距实现）、文字排版及打印线条。除下文的非正式公文声明外，不设置颜色、背景、阴影或位置。文字和线条使用继承的颜色（线条使用 `currentColor`）。纸张周围的所有样式均由宿主页面自身的 `<style>` 负责，见“宿主页面的职责”。
+- **纸张样式的职责。** `gongwen.css` 只设置 A4 纸张及其文字的样式：尺寸、页边距（用内边距实现）、文字排版及打印线条。除下文的非正式公文声明外，不设置颜色、背景、阴影或位置。文字和线条使用继承的颜色（线条使用 `currentColor`）。纸张周围的所有样式均由宿主页面负责（内嵌 `<style>` 或独立样式表均可），见“宿主页面的职责”。
 - 浏览器支持：`@scope`（Chrome 118+、Safari 17.4+、Firefox 146+），页面边距框（Chromium 131+）。
 
 ## 根元素上的参数
@@ -181,11 +181,11 @@
 
 ## 宿主页面的职责
 
-宿主页面负责纸张周围的展示样式，通常写在自身 HTML 的 `<style>` 中（不分层，因此优先于 `gongwen` 层）：
+宿主页面负责纸张周围的展示样式，写在内嵌 `<style>` 或独立样式表中均可（不分层，因此优先于 `gongwen` 层）：
 
 - 屏幕：页面背景、纸张背景和文字颜色、居中（`margin: 0 auto`）、`max-width: 100%`、阴影、窄屏内边距，以及可选的附件前分隔线（`.gongwen > section, .gongwen .gw-attachment-no`）。窄屏规则应使用 `@media screen and (max-width: 210mm)`；仅使用 `max-width` 查询也会匹配 A4 打印。
 - 打印：设置 `html, body { margin: 0; padding: 0 }`，避免浏览器默认的 body 外边距使版心偏移，并设置白色背景。
-- `src/markdown-template.html` 提供参考代码片段。`src/guide.html` 对预览使用相同方式设置样式。
+- `src/markdown-template.html` 以内嵌 `<style>` 提供参考代码片段。`src/guide.html` 的预览纸张由独立样式表 `src/guide.css` 按相同职责划分设置样式；它不分层，因此无论引用顺序都优先于 `gongwen` 层。
 
 ## 不在项目范围内的功能
 
