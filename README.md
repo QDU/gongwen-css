@@ -176,7 +176,7 @@ banji:
 
 ### GitHub Pages
 
-在 GitHub 仓库的 **Settings → Pages → Build and deployment → Source** 中选择 **GitHub Actions**。提交并推送项目后，`.github/workflows/pages.yml` 会在 push 和 pull request 时安装锁定的依赖并构建，仅在默认分支上发布 `dist/`。也可在 Actions 中从默认分支手动运行工作流。部署地址可在工作流的 `github-pages` environment 中查看。
+在 GitHub 仓库的 **Settings → Pages → Build and deployment → Source** 中选择 **GitHub Actions**。提交并推送项目后，`.github/workflows/pages.yml` 在针对 `main` 的 pull request 上只安装锁定的依赖、运行测试并构建；只有 `main` 分支有新提交时才发布 `dist/`。也可在 Actions 中从 `main` 手动运行工作流重新发布。部署地址可在工作流的 `github-pages` environment 中查看。
 
 流程使用 GitHub 官方的 [Pages 自定义工作流](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages)，通过内置 `GITHUB_TOKEN` 发布，无需添加个人访问令牌。
 
@@ -184,12 +184,23 @@ banji:
 
 版本号遵循[语义化版本](https://semver.org/lang/zh-CN/)：只修正样式偏差或文档时升修订号（patch）；新增元素、类钩子或参数时升次版本号（minor）；更改已有 HTML 约定、移除类钩子或改变默认版式而需要使用者修改标记时升主版本号（major）。
 
-在 `main` 分支、工作区干净且已与远端同步时执行：
+`main` 受分支保护，不能直接推送，版本号通过 pull request 修改，合并后再打标签：
 
 ```sh
-npm test
-npm version patch          # 或 minor、major：更新 package.json 和 package-lock.json，提交并打上 vX.Y.Z 标签
-git push --follow-tags
+git switch main && git pull
+git switch -c release/vX.Y.Z
+npm version patch --no-git-tag-version   # 或 minor、major：只更新 package.json 和 package-lock.json
+git commit -am "Release vX.Y.Z"
+git push -u origin release/vX.Y.Z
+gh pr create --fill                       # CI 通过后合并
+```
+
+合并后在 `main` 的最新提交上打标签并推送：
+
+```sh
+git switch main && git pull
+git tag vX.Y.Z
+git push origin vX.Y.Z
 ```
 
 推送 `v*` 标签后，`.github/workflows/publish.yml` 会安装依赖、运行测试、核对标签与 `package.json` 版本一致，然后构建并发布到 npm。发布通过 npm [Trusted Publishing](https://docs.npmjs.com/trusted-publishers) 完成，无需在仓库中保存 npm 令牌，并自动附带来源证明（provenance）。
@@ -200,7 +211,11 @@ git push --follow-tags
 2. 在 npmjs.com 的 `@qdu/gongwen-css` 包页面 **Settings → Trusted Publisher** 中添加 GitHub Actions：组织 `QDU`、仓库 `gongwen-css`、工作流文件 `publish.yml`。
 3. 可选：在 **Settings → Publishing access** 中选择禁止使用令牌发布，使发布只能经由该工作流。
 
-若工作流失败，提交修正后再次执行 `npm version patch` 并推送，跳过失败的版本号即可；已发布到 npm 的版本号不能重复使用，也不要改写已推送的标签。
+若发布工作流失败，通过 pull request 提交修正，再按上述步骤发布下一个修订号，跳过失败的版本号即可；已发布到 npm 的版本号不能重复使用，也不要改写已推送的标签。
+
+### 分支保护
+
+`main` 设有仓库规则集：禁止直接推送、强制推送和删除；所有改动须经 pull request 合并，且 CI 中的 `build` 检查须通过。规则对包括管理员在内的所有人生效。
 
 ### 参与贡献
 
