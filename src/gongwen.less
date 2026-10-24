@@ -37,6 +37,7 @@
 @notice-color: #c8c8c8;
 @notice-svg-color: replace("@{notice-color}", "#", "%23");
 @notice-text: "本页由 gongwen-css 项目排版生成，不得视为正式公文";
+@print-requirements: "Firefox 暂不支持本公文的打印版式（页码及版记分页）。请使用 Chrome 132+ 或 Edge 132+ 打开本页后打印或保存为 PDF。";
 
 @font-song: "GW Song", "宋体", SimSun, "Songti SC", STSong, "Noto Serif CJK SC Regular", "NotoSerifCJKsc-Regular", "Source Han Serif SC Regular", serif;
 @song-sources: local("SimSun"), local("宋体"), local("NSimSun"), local("STSong"),
@@ -509,6 +510,43 @@
   white-space: normal;
   orphans: 2;
   widows: 2;
+}
+
+.gw-print-notice {
+  display: none;
+}
+
+// Firefox has no page-margin boxes and can split the full-height footer.
+// Keep this outside @scope so older Firefox also receives the notice.
+@supports (-moz-appearance: none) {
+  @media screen {
+    .gw-print-notice {
+      display: block;
+      margin: 16px;
+      padding: 12px 16px;
+      border: 1px solid currentColor;
+      font: 16px/1.5 sans-serif;
+    }
+
+    .gw-print-notice::before {
+      content: @print-requirements;
+    }
+  }
+
+  @media print {
+    body:has(.gongwen) > * {
+      display: none !important;
+    }
+
+    body:has(.gongwen)::before {
+      content: @print-requirements;
+      display: block;
+      color: #000;
+      font: 14pt/1.5 sans-serif;
+      letter-spacing: normal;
+      text-align: left;
+    }
+  }
 }
 
 /* Printed sheets and page numbers */
