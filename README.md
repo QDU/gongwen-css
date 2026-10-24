@@ -22,11 +22,20 @@ import '@qdu/gongwen-css';
 @import '@qdu/gongwen-css/gongwen.less';
 ```
 
-也可直接通过 CDN 使用：
+也可直接通过 [jsDelivr](https://www.jsdelivr.com/package/npm/@qdu/gongwen-css) CDN 使用。最新发布版本：
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@qdu/gongwen-css@0/dist/gongwen.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@qdu/gongwen-css@latest/dist/gongwen.css">
 ```
+
+| 地址 | 内容 |
+|---|---|
+| `https://cdn.jsdelivr.net/npm/@qdu/gongwen-css@latest/dist/gongwen.css` | 最新发布版本 |
+| `https://cdn.jsdelivr.net/npm/@qdu/gongwen-css@latest/dist/gongwen.min.css` | 最新发布版本，由 jsDelivr 自动压缩 |
+| `https://cdn.jsdelivr.net/npm/@qdu/gongwen-css@0/dist/gongwen.css` | 0.x 中的最新版本，不会自动升级到不兼容的主版本 |
+| `https://cdn.jsdelivr.net/npm/@qdu/gongwen-css@0.1.0/dist/gongwen.css` | 固定版本，内容永不改变 |
+
+`@latest` 和 `@0` 等别名在发布后由发布工作流刷新 CDN 缓存，但浏览器可能缓存旧文件最长 7 天。正式站点建议使用固定版本号，升级时再手动修改。
 
 ### 与站点样式共存
 
@@ -203,13 +212,21 @@ git tag vX.Y.Z
 git push origin vX.Y.Z
 ```
 
-推送 `v*` 标签后，`.github/workflows/publish.yml` 会安装依赖、运行测试、核对标签与 `package.json` 版本一致，然后构建并发布到 npm。发布通过 npm [Trusted Publishing](https://docs.npmjs.com/trusted-publishers) 完成，无需在仓库中保存 npm 令牌，并自动附带来源证明（provenance）。
+推送 `v*` 标签后，`.github/workflows/publish.yml` 在 GitHub 环境 `npm` 中运行：安装依赖、运行测试、核对标签与 `package.json` 版本一致，然后构建并发布到 npm，最后刷新 jsDelivr 上 `@latest` 和主版本别名的缓存。环境 `npm` 只允许 `v*` 标签部署。发布通过 npm [Trusted Publishing](https://docs.npmjs.com/trusted-publishers) 完成，无需在仓库中保存 npm 令牌，并自动附带来源证明（provenance）。
 
 首次发布及发布配置（仅维护者需要一次）：
 
 1. 以 npm 组织 `qdu` 成员身份执行 `npm login` 和 `npm publish` 发布首个版本。包名为 `@qdu/gongwen-css`，`publishConfig.access` 已设为 `public`，否则带作用域的包默认按私有包发布。
-2. 在 npmjs.com 的 `@qdu/gongwen-css` 包页面 **Settings → Trusted Publisher** 中添加 GitHub Actions：组织 `QDU`、仓库 `gongwen-css`、工作流文件 `publish.yml`。
-3. 可选：在 **Settings → Publishing access** 中选择禁止使用令牌发布，使发布只能经由该工作流。
+2. 在 GitHub 仓库 **Settings → Environments** 中创建环境 `npm`，**Deployment branches and tags** 选择 **Selected branches and tags** 并添加标签规则 `v*`。可选：添加 required reviewers，使每次发布须人工批准。
+3. 登记 Trusted Publisher（会打开浏览器验证身份）：
+
+   ```sh
+   npm trust github @qdu/gongwen-css --repo QDU/gongwen-css --file publish.yml --env npm --allow-publish
+   npm trust list @qdu/gongwen-css
+   ```
+
+   也可在 npmjs.com 的包页面 **Settings → Trusted Publisher** 中填写：组织 `QDU`、仓库 `gongwen-css`、工作流文件 `publish.yml`、环境 `npm`。仓库、工作流文件名和环境名须与工作流完全一致，否则发布会被拒绝。
+4. 可选：在 **Settings → Publishing access** 中选择禁止使用令牌发布，使发布只能经由该工作流。
 
 若发布工作流失败，通过 pull request 提交修正，再按上述步骤发布下一个修订号，跳过失败的版本号即可；已发布到 npm 的版本号不能重复使用，也不要改写已推送的标签。
 

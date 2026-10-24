@@ -11,6 +11,8 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    # Must match the environment registered as the npm Trusted Publisher.
+    environment: npm
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -23,3 +25,8 @@ jobs:
       - name: Check tag matches package.json version
         run: test "v$(node -p 'require("./package.json").version')" = "$GITHUB_REF_NAME"
       - run: npm publish
+      - name: Refresh jsDelivr version aliases
+        run: |
+          for v in latest "$(node -p 'require("./package.json").version.split(".")[0]')"; do
+            curl -fsS "https://purge.jsdelivr.net/npm/@qdu/gongwen-css@$v/dist/gongwen.css" > /dev/null || echo "::warning::jsDelivr purge failed for @$v"
+          done
