@@ -11,6 +11,8 @@
 
 // §5.2.2: 三号仿宋 (16pt) is the general default.
 @body-font-size: 16pt;
+// §5.2.4: text is black unless stated otherwise; rules follow via currentColor.
+@text-color: #000;
 @title-font-size: 22pt;
 
 @rule-thin: 0.75pt solid currentColor;
@@ -82,6 +84,7 @@
   box-sizing: border-box;
   width: @paper-width;
   padding: @margin-top @margin-right @margin-bottom @margin-left;
+  color: @text-color;
   font-family: var(--gw-font-fangsong);
   font-size: var(--gw-font-size);
   font-weight: normal;
@@ -491,6 +494,7 @@
 }
 
 .gongwen .gw-raw {
+  color: initial;
   font: initial;
   letter-spacing: normal;
   word-spacing: normal;
@@ -539,6 +543,7 @@
 @page :left {
   @bottom-left {
     content: "—" counter(page) "—";
+    color: @text-color;
     font-family: @font-song;
     font-size: @page-number-size;
     line-height: 1;
@@ -552,6 +557,7 @@
 @page :right {
   @bottom-right {
     content: "—" counter(page) "—";
+    color: @text-color;
     font-family: @font-song;
     font-size: @page-number-size;
     line-height: 1;

@@ -35,7 +35,7 @@
 | 5.2.1 | 天头 37mm±1mm，订口 28mm±1mm，版心 156mm×225mm | 页边距上 37、右 26、下 35、左 28mm | 实现 |
 | 5.2.2 | 各要素一般用 3 号仿宋体字 | 根元素仿宋 16pt | 实现 |
 | 5.2.3 | 一般每面 22 行、每行 28 字，并撑满版心 | `--gw-lines: 22`、`--gw-chars: 28` | 实现 |
-| 5.2.4 | 文字颜色均为黑色 | 文字颜色继承自宿主页面 | 差异 |
+| 5.2.4 | 文字颜色均为黑色 | 根元素及页码设置 `color: #000`，线条随 `currentColor` 为黑色 | 实现 |
 | 6 | 制版、印刷、装订 | 印制环节 | 范围外 |
 | 7.1 | 版心内分为版头、主体、版记；页码位于版心外 | 主体与版记由正文和 `footer` 构成；页码在 `@page` 底部边距框中 | 实现 |
 | 7.2 | 份号、密级、紧急程度、发文机关标志、发文字号、签发人、红色分隔线 | 不提供版头样式 | 范围外 |
@@ -64,7 +64,7 @@
 - 公文规则位于 `@scope (.gongwen) to (.gw-raw)` 内，在 `:scope { … }` 下使用 Less 嵌套编写（构建时展开）。选择器显式写出 `:scope`/`&`，以保留类钩子（`.gw-nonum`、`.gw-sealed` 等）所依赖的选择器优先级。
 - 根元素修饰类使用根元素上的复合选择器（`&.gw-no-first-page-number`），而非后代选择器。
 - `@page` 规则位于样式层内、`@scope` 外。该层中的规则均不使用 `!important`。
-- **纸张样式的职责。** `gongwen.css` 只设置 A4 纸张及其文字的样式：尺寸、页边距（用内边距实现）、文字排版及打印线条。除下文的非正式公文声明外，不设置颜色、背景、阴影或位置。文字和线条使用继承的颜色（线条使用 `currentColor`）。纸张周围的所有样式均由宿主页面负责（内嵌 `<style>` 或独立样式表均可），见“宿主页面的职责”。
+- **纸张样式的职责。** `gongwen.css` 只设置 A4 纸张及其文字的样式：尺寸、页边距（用内边距实现）、文字排版及打印线条。除文字颜色（第 5.2.4 条，黑色）和下文的非正式公文声明外，不设置颜色、背景、阴影或位置。线条使用 `currentColor`，与文字同色。纸张周围的所有样式均由宿主页面负责（内嵌 `<style>` 或独立样式表均可），见“宿主页面的职责”。
 - 浏览器支持：`@scope`（Chrome 118+、Safari 17.4+、Firefox 146+），页面边距框（Chromium 131+）。
 
 ## 根元素上的参数
@@ -100,6 +100,7 @@
 
 ## 根元素 `.gongwen`
 
+- 文字颜色：`color: #000`（`@text-color`，第 5.2.4 条）。规则位于 `gongwen` 层内，宿主未分层的样式仍可覆盖，例如深色模式。
 - 文字排版：仿宋、`var(--gw-font-size)`、正常字重、`line-height: var(--gw-line)`、`letter-spacing: calc(var(--gw-char) - var(--gw-font-size))`（约 -0.207pt，使 28 个全宽汉字填满 156mm）、`text-align: justify`、`hanging-punctuation: allow-end`（仅 Safari 支持）、`text-autospace: normal`（在汉字与拉丁字母或数字之间加入 ⅛em 间距，标点旁不加；Chrome 140+、Safari 18.4+ 支持，其他浏览器忽略）、`line-break: strict`、`word-break: normal`、`overflow-wrap: break-word`、`counter-reset: gw-h2 gw-h3 gw-h4 gw-h5`。所有后代元素及其伪元素均设置 `box-sizing: border-box`。
 - 纸张：`width: 210mm; padding: 37mm 26mm 35mm 28mm`。
 - `p`：`margin: 0; text-indent: calc(2 * var(--gw-char))`。
@@ -164,7 +165,7 @@
 
 ## 使用 `.gw-raw` 退出公文样式
 
-`gongwen.css` 的规则不匹配 `.gw-raw` 内部元素（带排除区域的作用域）：其中的 `h2` 不生成编号，也不递增计数器，`p` 不缩进。边界元素本身在样式层内、作用域外重置：`font: initial; letter-spacing: normal; word-spacing: normal; text-indent: 0; text-align: start; line-break: auto; hanging-punctuation: none; text-spacing-trim: initial; text-autospace: initial; overflow-wrap: normal; word-break: normal; white-space: normal; orphans: 2; widows: 2`。除非宿主另行设置样式，其内容使用浏览器默认样式。不支持在 `.gw-raw` 内嵌套 `.gongwen`。
+`gongwen.css` 的规则不匹配 `.gw-raw` 内部元素（带排除区域的作用域）：其中的 `h2` 不生成编号，也不递增计数器，`p` 不缩进。边界元素本身在样式层内、作用域外重置：`color: initial; font: initial; letter-spacing: normal; word-spacing: normal; text-indent: 0; text-align: start; line-break: auto; hanging-punctuation: none; text-spacing-trim: initial; text-autospace: initial; overflow-wrap: normal; word-break: normal; white-space: normal; orphans: 2; widows: 2`。除非宿主另行设置样式，其内容使用浏览器默认样式。不支持在 `.gw-raw` 内嵌套 `.gongwen`。
 
 ## 打印
 
@@ -183,7 +184,7 @@
 
 宿主页面负责纸张周围的展示样式，写在内嵌 `<style>` 或独立样式表中均可（不分层，因此优先于 `gongwen` 层）：
 
-- 屏幕：页面背景、纸张背景和文字颜色、居中（`margin: 0 auto`）、`max-width: 100%`、阴影、窄屏内边距，以及可选的附件前分隔线（`.gongwen > section, .gongwen .gw-attachment-no`）。窄屏规则应使用 `@media screen and (max-width: 210mm)`；仅使用 `max-width` 查询也会匹配 A4 打印。
+- 屏幕：页面背景、纸张背景（文字颜色由 `gongwen.css` 设为黑色，宿主可覆盖）、居中（`margin: 0 auto`）、`max-width: 100%`、阴影、窄屏内边距，以及可选的附件前分隔线（`.gongwen > section, .gongwen .gw-attachment-no`）。窄屏规则应使用 `@media screen and (max-width: 210mm)`；仅使用 `max-width` 查询也会匹配 A4 打印。
 - 打印：设置 `html, body { margin: 0; padding: 0 }`，避免浏览器默认的 body 外边距使版心偏移，并设置白色背景。
 - `src/markdown-template.html` 以内嵌 `<style>` 提供参考代码片段。`src/guide.html` 的预览纸张由独立样式表 `src/guide.css` 按相同职责划分设置样式；它不分层，因此无论引用顺序都优先于 `gongwen` 层。
 
@@ -202,7 +203,6 @@
 以下为当前实现与标准条款的已知差异，尚未修改，不能据此宣称已全面符合标准：
 
 - 第 3.2 条：行距按第 5.2.3 条均分版心，与“一行”的定义值不同，见“行距”。
-- 第 5.2.4 条：未特殊说明的文字应为黑色；当前由宿主页面设置文字颜色。
 - 第 7.3.5.2 条：无印章落款的日期首字应比署名首字右移二字，日期较长时日期右空二字并相应增加署名右空字数；当前将两行居中对齐。
 - 第 7.4.2 条：抄送机关回行应与冒号后首字对齐；当前不悬挂对齐。左右内缩 16pt 略大于 4 号字的一字（14pt）。
 - 第 7.5 条：仅当版记页前有空白页时，空白页和版记页才均不编页码；当前无条件隐藏版记页页码，适用范围比标准更宽。
