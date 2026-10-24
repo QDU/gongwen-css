@@ -7,25 +7,25 @@
 ## 安装与使用
 
 ```sh
-npm install gongwen-css
+npm install @qdu/gongwen-css
 ```
 
 在打包工具中引入编译后的样式：
 
 ```js
-import 'gongwen-css';
+import '@qdu/gongwen-css';
 ```
 
 或在 Less 中引用源文件以覆盖构建期变量：
 
 ```less
-@import 'gongwen-css/gongwen.less';
+@import '@qdu/gongwen-css/gongwen.less';
 ```
 
 也可直接通过 CDN 使用：
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gongwen-css@0/dist/gongwen.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@qdu/gongwen-css@0/dist/gongwen.css">
 ```
 
 ### 与站点样式共存
@@ -196,8 +196,8 @@ git push --follow-tags
 
 首次发布及发布配置（仅维护者需要一次）：
 
-1. 本地执行 `npm login` 和 `npm publish` 发布首个版本。
-2. 在 npmjs.com 的包页面 **Settings → Trusted Publisher** 中添加 GitHub Actions：组织 `QDU`、仓库 `gongwen-css`、工作流文件 `publish.yml`。
+1. 以 npm 组织 `qdu` 成员身份执行 `npm login` 和 `npm publish` 发布首个版本。包名为 `@qdu/gongwen-css`，`publishConfig.access` 已设为 `public`，否则带作用域的包默认按私有包发布。
+2. 在 npmjs.com 的 `@qdu/gongwen-css` 包页面 **Settings → Trusted Publisher** 中添加 GitHub Actions：组织 `QDU`、仓库 `gongwen-css`、工作流文件 `publish.yml`。
 3. 可选：在 **Settings → Publishing access** 中选择禁止使用令牌发布，使发布只能经由该工作流。
 
 若工作流失败，提交修正后再次执行 `npm version patch` 并推送，跳过失败的版本号即可；已发布到 npm 的版本号不能重复使用，也不要改写已推送的标签。
