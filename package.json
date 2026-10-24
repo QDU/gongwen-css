@@ -1,6 +1,6 @@
 {
   "name": "@qdu/gongwen-css",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "GB/T 9704—2012 党政机关公文格式的网页与打印样式表",
   "keywords": [
     "css",
@@ -18,7 +18,7 @@
     "type": "git",
     "url": "git+https://github.com/QDU/gongwen-css.git"
   },
-  "homepage": "https://github.com/QDU/gongwen-css#readme",
+  "homepage": "https://qdu.github.io/gongwen-css/",
   "bugs": "https://github.com/QDU/gongwen-css/issues",
   "type": "module",
   "main": "dist/gongwen.css",
