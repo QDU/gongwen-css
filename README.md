@@ -1,6 +1,6 @@
 # gongwen-css
 
-`gongwen-css` 为网页内容提供 [GB/T 9704—2012《党政机关公文格式》](https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=F3CC9BEF482524C895FDA7A08BB4A70E) 的公文版式。将一份公文放入单个 `<article class="gongwen">`，再引用样式表即可；使用时不需要 JavaScript 或运行时依赖。推荐使用 HTML5 结构，旧的 `gw-*` 类仍保留为可选钩子。每种元素的写法见 [`src/guide.html`](src/guide.html)，完整长文示例见 [`samples/Protection_and_inheritance_of_intangible_cultural_heritage.md`](samples/Protection_and_inheritance_of_intangible_cultural_heritage.md)。
+`gongwen-css` 为网页内容提供 [GB/T 9704—2012《党政机关公文格式》](https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=F3CC9BEF482524C895FDA7A08BB4A70E) 的公文版式。将一份公文放入单个 `<article class="gongwen">`，再引用样式表即可；使用时不需要 JavaScript 或运行时依赖。推荐使用 HTML5 结构，旧的 `gw-*` 类仍保留为可选钩子。在线查看[编写指南](https://qdu.github.io/gongwen-css/)（每种元素的写法和实时预览）和[示例列表](https://qdu.github.io/gongwen-css/samples/index.html)，其中[完整长文示例](https://qdu.github.io/gongwen-css/samples/Protection_and_inheritance_of_intangible_cultural_heritage.html)可直接打印预览。
 
 本文面向使用者和贡献者，说明如何安装、编写、打印和构建。各项样式规则的实现细节、对应的标准条款及与标准的已知差异见 [SPEC.md](SPEC.md)。
 
@@ -33,7 +33,7 @@ import '@qdu/gongwen-css';
 | `https://cdn.jsdelivr.net/npm/@qdu/gongwen-css@latest/dist/gongwen.css` | 最新发布版本 |
 | `https://cdn.jsdelivr.net/npm/@qdu/gongwen-css@latest/dist/gongwen.min.css` | 最新发布版本，由 jsDelivr 自动压缩 |
 | `https://cdn.jsdelivr.net/npm/@qdu/gongwen-css@0/dist/gongwen.css` | 0.x 中的最新版本，不会自动升级到不兼容的主版本 |
-| `https://cdn.jsdelivr.net/npm/@qdu/gongwen-css@0.1.0/dist/gongwen.css` | 固定版本，内容永不改变 |
+| `https://cdn.jsdelivr.net/npm/@qdu/gongwen-css@0.1.1/dist/gongwen.css` | 固定版本，内容永不改变 |
 
 `@latest` 和 `@0` 等别名在发布后由发布工作流刷新 CDN 缓存，但浏览器可能缓存旧文件最长 7 天。正式站点建议使用固定版本号，升级时再手动修改。
 
