@@ -22,6 +22,8 @@ import '@qdu/gongwen-css';
 @import '@qdu/gongwen-css/gongwen.less';
 ```
 
+包内还提供构建时由 [Lightning CSS](https://lightningcss.dev/) 压缩的 `dist/gongwen.min.css`，规则与 `gongwen.css` 相同，可通过 `import '@qdu/gongwen-css/gongwen.min.css'` 或 CDN 路径 `dist/gongwen.min.css` 使用。0.1.1 及更早的版本不含此文件。
+
 也可直接通过 [jsDelivr](https://www.jsdelivr.com/package/npm/@qdu/gongwen-css) CDN 使用。最新发布版本：
 
 ```html
@@ -147,7 +149,7 @@ npm run build
 python3 -m http.server 8000 --directory dist
 ```
 
-打开 <http://localhost:8000/> 查看指南，`/samples/index.html` 查看示例列表，`/samples/quick-check.html` 快速验证，`/samples/Protection_and_inheritance_of_intangible_cultural_heritage.html` 查看完整打印示例。`dist/` 包含指南首页 `index.html`、`guide.html`、`guide.css`、生成的 `samples/*.html` 和编译后的 `gongwen.css`；HTML 中的相对链接也适用于 GitHub Pages 项目子路径。使用样式时复制 `dist/gongwen.css` 即可。源码中的 HTML 需构建后从 `dist/` 预览。
+打开 <http://localhost:8000/> 查看指南，`/samples/index.html` 查看示例列表，`/samples/quick-check.html` 快速验证，`/samples/Protection_and_inheritance_of_intangible_cultural_heritage.html` 查看完整打印示例。`dist/` 包含指南首页 `index.html`、`guide.html`、`guide.css`、生成的 `samples/*.html` 、编译后的 `gongwen.css` 及其压缩版 `gongwen.min.css`；HTML 中的相对链接也适用于 GitHub Pages 项目子路径。使用样式时复制 `dist/gongwen.css` 即可。源码中的 HTML 需构建后从 `dist/` 预览。
 
 ### Markdown 示例
 

@@ -26,11 +26,13 @@
   "exports": {
     ".": "./dist/gongwen.css",
     "./gongwen.css": "./dist/gongwen.css",
+    "./gongwen.min.css": "./dist/gongwen.min.css",
     "./gongwen.less": "./src/gongwen.less",
     "./package.json": "./package.json"
   },
   "files": [
     "dist/gongwen.css",
+    "dist/gongwen.min.css",
     "src/gongwen.less"
   ],
   "publishConfig": {
@@ -46,6 +48,7 @@
   },
   "devDependencies": {
     "less": "^4.9.1",
+    "lightningcss": "^1.33.0",
     "markdown-it": "^15.0.3",
     "markdown-it-container": "^4.0.0",
     "yaml": "^2.9.1"

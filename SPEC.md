@@ -11,7 +11,7 @@
 | 文件 | 用途 |
 |---|---|
 | `src/gongwen.less` | 样式表源文件，通过 `npm run build` 使用 Less 编译。 |
-| `dist/` | 生成的 Pages 站点，包含编译后的 `gongwen.css`、示例、指南及以指南为内容的首页。不提交到版本库。 |
+| `dist/` | 生成的 Pages 站点，包含编译后的 `gongwen.css`、由 Lightning CSS 压缩（不指定浏览器目标，只压缩不降级语法）的 `gongwen.min.css`、示例、指南及以指南为内容的首页。不提交到版本库。 |
 | `scripts/build.mjs` | 编译样式表、渲染 Markdown 示例并生成公开站点。 |
 | `scripts/render-sample.mjs` | 解析 YAML front matter、Markdown 和专栏容器，生成版记并填充模板。 |
 | `samples/*.md` | 独立验证示例，包含 YAML front matter 和 Markdown 正文。`samples/Protection_and_inheritance_of_intangible_cultural_heritage.md` 是完整长文示例，用于核验分页、专栏、附件和版记。 |

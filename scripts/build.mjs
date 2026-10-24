@@ -2,11 +2,14 @@ import { copyFile, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promi
 import { dirname, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import less from 'less';
+import { transform } from 'lightningcss';
 import { renderSample } from './render-sample.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const source = resolve(root, 'src/gongwen.less');
 const { css } = await less.render(await readFile(source, 'utf8'), { filename: source, math: 'strict' });
+// No browser targets: minify only, without lowering or dropping modern syntax such as @scope.
+const { code: minified } = transform({ filename: 'gongwen.css', code: Buffer.from(css), minify: true });
 const template = await readFile(resolve(root, 'src/markdown-template.html'), 'utf8');
 const samples = resolve(root, 'samples');
 const names = (await readdir(samples, { recursive: true })).filter(name => name.endsWith('.md')).sort();
@@ -27,6 +30,7 @@ const output = resolve(root, 'dist');
 await rm(output, { recursive: true, force: true });
 await mkdir(resolve(output, 'samples'), { recursive: true });
 await writeFile(resolve(output, 'gongwen.css'), css);
+await writeFile(resolve(output, 'gongwen.min.css'), minified);
 await copyFile(resolve(root, 'src/guide.html'), resolve(output, 'guide.html'));
 await copyFile(resolve(root, 'src/guide.css'), resolve(output, 'guide.css'));
 await copyFile(resolve(root, 'src/guide.html'), resolve(output, 'index.html'));
