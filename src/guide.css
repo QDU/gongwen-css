@@ -1,0 +1,148 @@
+:root {
+  color: #202124;
+  background: #f4f5f6;
+  font-family: Arial, "Microsoft YaHei", sans-serif;
+  line-height: 1.6;
+}
+
+*:not(.gongwen, .gongwen *) {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.guide {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+.guide > h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.guide > p {
+  max-width: 78ch;
+}
+
+.guide > h2 {
+  margin: 40px 0 4px;
+  font-size: 1.45rem;
+}
+
+.guide > h3 {
+  margin: 24px 0 4px;
+  font-size: 1.1rem;
+}
+
+.guide .reference:not(.gongwen, .gongwen *) {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+.guide .reference th:not(.gongwen, .gongwen *),
+.guide .reference td:not(.gongwen, .gongwen *) {
+  border: 1px solid #d6d9dc;
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.guide .reference th:not(.gongwen, .gongwen *) {
+  background: #eceff1;
+}
+
+.guide code:not(.gongwen, .gongwen *),
+.guide pre:not(.gongwen, .gongwen *) {
+  font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 0.9rem;
+}
+
+.guide pre:not(.gongwen, .gongwen *) {
+  min-width: 0;
+  margin: 0;
+  padding: 20px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  border: 1px solid #d6d9dc;
+  border-radius: 4px;
+  background: #fff;
+  line-height: 1.5;
+}
+
+.example-row:not(.gongwen, .gongwen *) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  align-items: start;
+  margin-top: 12px;
+}
+
+.preview:not(.gongwen, .gongwen *) {
+  min-width: 0;
+  padding: 16px;
+  overflow: auto;
+  border: 1px solid #d6d9dc;
+  border-radius: 4px;
+  background: #e9ecef;
+}
+
+.preview .gongwen {
+  width: auto;
+  max-width: none;
+  min-height: 0;
+  margin: 0;
+  padding: 24px;
+  box-shadow: none;
+  background-color: #fff;
+  --gw-mark-left: none;
+  --gw-mark-right: none;
+  color: #000;
+}
+
+@media screen {
+  .preview .gongwen > section,
+  .preview .gongwen .gw-attachment-no {
+    margin-top: 60pt;
+    border-top: 1px dashed #ccc;
+    padding-top: 30pt;
+  }
+}
+
+.source-only:not(.gongwen, .gongwen *) {
+  min-height: 100%;
+  padding: 20px;
+  border: 1px solid #d6d9dc;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.guide-note:not(.gongwen, .gongwen *) {
+  padding: 12px 16px;
+  border-left: 4px solid #6b8296;
+  background: #fff;
+}
+
+@media (max-width: 900px) {
+  .example-row:not(.gongwen, .gongwen *) {
+    grid-template-columns: 1fr;
+  }
+
+  .guide {
+    padding: 24px 16px 48px;
+  }
+}
+
+@media print {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+}
