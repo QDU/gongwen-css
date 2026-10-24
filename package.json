@@ -1,5 +1,5 @@
 {
-  "name": "gongwen-css",
+  "name": "@qdu/gongwen-css",
   "version": "0.1.0",
   "description": "GB/T 9704—2012 党政机关公文格式的网页与打印样式表",
   "keywords": [
@@ -33,6 +33,9 @@
     "dist/gongwen.css",
     "src/gongwen.less"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "sideEffects": [
     "*.css"
   ],
