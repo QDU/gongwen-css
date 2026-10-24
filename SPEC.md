@@ -169,6 +169,8 @@
 
 ## 打印
 
+- 完整打印的最低浏览器要求：Chrome 132+ 或 Edge 132+。通过 `@supports (-moz-appearance: none)` 识别 Firefox；打印包含 `.gongwen` 的页面时隐藏 `body` 的直接子元素，改由 `body::before` 输出浏览器要求提示，避免输出缺失页码或版记跨页的公文。此规则位于 `@scope` 外。可选的 `.gw-print-notice` 在 Firefox 屏幕视图中显示相同提示，指南和示例模板均包含此元素。
+
 - `@page { size: A4; margin: 37mm 26mm 35mm 28mm }`。上、右、下、左页边距分别为 37、26、35、28mm，普通页面版心为 156×225mm，与屏幕纸张内边距一致。正文网格按每面 22 个行框、每行 28 个全宽汉字设置；标题、空行及特殊块会占用版面，实际正文行数不一定为 22。首行两字缩进占两个字位。
 - `@media print`：根元素设置 `width: auto; max-width: none; margin: 0; padding: 0`（由 `@page` 页边距接管），以及 `orphans: 1; widows: 1`（关闭孤行控制，使每面按第 5.2.3 条排满版心）。
 - `@page` 规则作用于全局：打印包含 `.gongwen` 的页面时，整个页面均使用公文纸张版式、页码和声明。
