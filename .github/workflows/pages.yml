@@ -1,8 +1,11 @@
 name: Build and deploy GitHub Pages
 
+# Pull requests are only built and tested; Pages deploys only for new commits on main.
 on:
   push:
+    branches: [main]
   pull_request:
+    branches: [main]
   workflow_dispatch:
 
 permissions:

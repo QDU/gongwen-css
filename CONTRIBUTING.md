@@ -60,7 +60,7 @@ python3 -m http.server 8000 --directory dist
 6. PR 描述中说明改动内容、原因和验证方式；版式改动请附改动前后的截图或打印输出。
 7. 不要在 PR 中修改 `package.json` 的版本号，发布由维护者负责（见 README 的“发布新版本”）。
 
-CI（`.github/workflows/pages.yml`）会在每个 PR 上运行测试和构建，请确保全部通过。
+CI（`.github/workflows/pages.yml`）会在每个 PR 上运行测试和构建。`main` 受分支保护，`build` 检查通过后才能合并。
 
 ## 编码约定
 
