@@ -25,6 +25,16 @@ jobs:
       - name: Check tag matches package.json version
         run: test "v$(node -p 'require("./package.json").version')" = "$GITHUB_REF_NAME"
       - run: npm publish
+      # npm processes uploads asynchronously; purging before the version is
+      # visible would re-cache the previous release under the aliases.
+      - name: Wait for the version to appear on npm
+        run: |
+          version=$(node -p 'require("./package.json").version')
+          for i in $(seq 1 40); do
+            [ "$(npm view "@qdu/gongwen-css@latest" version --prefer-online 2>/dev/null)" = "$version" ] && exit 0
+            sleep 15
+          done
+          echo "::warning::@qdu/gongwen-css@$version not visible as latest after 10 minutes"
       - name: Refresh jsDelivr version aliases
         run: |
           for v in latest "$(node -p 'require("./package.json").version.split(".")[0]')"; do

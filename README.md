@@ -31,11 +31,10 @@ import '@qdu/gongwen-css';
 | 地址 | 内容 |
 |---|---|
 | `https://cdn.jsdelivr.net/npm/@qdu/gongwen-css@latest/dist/gongwen.css` | 最新发布版本 |
-| `https://cdn.jsdelivr.net/npm/@qdu/gongwen-css@latest/dist/gongwen.min.css` | 最新发布版本，由 jsDelivr 自动压缩 |
 | `https://cdn.jsdelivr.net/npm/@qdu/gongwen-css@0/dist/gongwen.css` | 0.x 中的最新版本，不会自动升级到不兼容的主版本 |
 | `https://cdn.jsdelivr.net/npm/@qdu/gongwen-css@0.1.1/dist/gongwen.css` | 固定版本，内容永不改变 |
 
-`@latest` 和 `@0` 等别名在发布后由发布工作流刷新 CDN 缓存，但浏览器可能缓存旧文件最长 7 天。正式站点建议使用固定版本号，升级时再手动修改。
+`@latest` 和 `@0` 等别名在新版本于 npm 上可见后由发布工作流刷新 CDN 缓存，但浏览器可能缓存旧文件最长 7 天。正式站点建议使用固定版本号，升级时再手动修改。
 
 ### 与站点样式共存
 
