@@ -1,5 +1,16 @@
 # 更新日志
 
+## Unreleased
+
+### 新增
+
+- 可选脚本 `gongwen-xbs.js`：标题等小标宋节点优先用本地字体，否则按字加载远程 WOFF，失败时恢复 `--gw-font-xbs-fallback`。
+- 自定义属性 `--gw-font-xbs-fallback`，保留原先含宋体类的软回退栈。
+
+### 变更
+
+- `--gw-font-xbs` 收紧为仅小标宋字体名，去掉华文中宋 / 宋体等软回退。
+
 ## [0.1.2](https://github.com/QDU/gongwen-css/compare/v0.1.1...v0.1.2) - 2026-10-24
 
 ### 新增

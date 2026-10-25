@@ -1,6 +1,6 @@
 # gongwen-css
 
-`gongwen-css` 为网页内容提供 [GB/T 9704—2012《党政机关公文格式》](https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=F3CC9BEF482524C895FDA7A08BB4A70E) 的公文版式。将一份公文放入单个 `<article class="gongwen">`，再引用样式表即可；使用时不需要 JavaScript 或运行时依赖。推荐使用 HTML5 结构，旧的 `gw-*` 类仍保留为可选钩子。在线查看[编写指南](https://qdu.github.io/gongwen-css/)（每种元素的写法和实时预览）和[示例列表](https://qdu.github.io/gongwen-css/samples/index.html)，其中[完整长文示例](https://qdu.github.io/gongwen-css/samples/Protection_and_inheritance_of_intangible_cultural_heritage.html)可直接打印预览。
+`gongwen-css` 为网页内容提供 [GB/T 9704—2012《党政机关公文格式》](https://openstd.samr.gov.cn/bzgk/std/newGbInfo?hcno=F3CC9BEF482524C895FDA7A08BB4A70E) 的公文版式。将一份公文放入单个 `<article class="gongwen">`，再引用样式表即可；核心排版不需要 JavaScript。可选的 `gongwen-xbs.js` 可在本机缺少小标宋时按字加载远程字形（见下文）。推荐使用 HTML5 结构，旧的 `gw-*` 类仍保留为可选钩子。在线查看[编写指南](https://qdu.github.io/gongwen-css/)（每种元素的写法和实时预览）和[示例列表](https://qdu.github.io/gongwen-css/samples/index.html)，其中[完整长文示例](https://qdu.github.io/gongwen-css/samples/Protection_and_inheritance_of_intangible_cultural_heritage.html)可直接打印预览。
 
 本文面向使用者和贡献者，说明如何安装、编写、打印和构建。各项样式规则的实现细节、对应的标准条款及与标准的已知差异见 [SPEC.md](SPEC.md)。
 
@@ -121,7 +121,17 @@ import '@qdu/gongwen-css';
 
 ## 字体与浏览器
 
-正文优先使用方正仿宋_GBK，标题和引导语使用方正小标宋、黑体及楷体字体栈。ASCII 字母、数字和标点优先使用 SimSun（宋体）；建议安装 SimSun 以获得一致的字形。未安装时，会依次尝试宋体、NSimSun、STSong、Songti SC Regular、Noto Serif CJK SC Regular（含 `NotoSerifCJKsc-Regular`）和 Source Han Serif SC Regular。不同系统的字体可用性不同，字形可能略有差异。
+正文优先使用方正仿宋_GBK，标题和引导语使用方正小标宋、黑体及楷体字体栈。`--gw-font-xbs` 仅含小标宋相关字体名（不含华文中宋 / 宋体等软回退）；完整软回退在 `--gw-font-xbs-fallback`。ASCII 字母、数字和标点优先使用 SimSun（宋体）；建议安装 SimSun 以获得一致的字形。未安装时，会依次尝试宋体、NSimSun、STSong、Songti SC Regular、Noto Serif CJK SC Regular（含 `NotoSerifCJKsc-Regular`）和 Source Han Serif SC Regular。不同系统的字体可用性不同，字形可能略有差异。
+
+### 可选：标题小标宋动态字形
+
+样式表本身仍不依赖 JavaScript。若本机未安装方正小标宋，可额外引入 `gongwen-xbs.js`：脚本检测本地小标宋，缺失时按字加载远程 WOFF，失败则回退到 `--gw-font-xbs-fallback`。指南与示例默认启用；自建页面建议同时设置 `Referrer-Policy: no-referrer`（或 `<meta name="referrer" content="no-referrer">`），并：
+
+```html
+<script type="module" src="https://cdn.jsdelivr.net/npm/@qdu/gongwen-css@latest/dist/gongwen-xbs.js"></script>
+```
+
+也可 `import '@qdu/gongwen-css/gongwen-xbs.js'`，或调用 `GongwenXbs.apply()` / `applyGongwenXbs()`。
 
 汉字与 ASCII 字母、数字之间自动加入约 1/8 字宽的间距（`text-autospace: normal`），与标点相邻时不加；需要 Chrome 140+ 或 Safari 18.4+，其他浏览器不加间距。
 

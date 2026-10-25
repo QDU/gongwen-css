@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="no-referrer">
     <title>{{title}}</title>
     <link rel="stylesheet" href="{{base}}gongwen.css">
     <style>
@@ -57,6 +58,7 @@
 {{content}}
 {{banji}}
     </article>
+    <script type="module" src="{{base}}gongwen-xbs.js"></script>
     <script>
       const toggle = document.getElementById("debug-toggle");
       toggle.addEventListener("click", () => {

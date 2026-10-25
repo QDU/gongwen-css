@@ -68,7 +68,8 @@
   font-weight: 400;
 }
 
-@xbs-sources: local("FZXBSK--GBK1-0"), local("FZXiaoBiaoSong-B05"), local("方正小标宋_GBK");
+@xbs-sources: local("FZXBSK--GBK1-0"), local("FZXiaoBiaoSong-B05"), local("FZXiaoBiaoSong-B05S"),
+    local("方正小标宋_GBK"), local("方正小标宋简体");
 @font-face {
   font-family: "GW XiaoBiaoSong";
   src: @xbs-sources;
@@ -104,7 +105,9 @@
   --gw-font-fangsong: "GW Latin", "GW FangSong", "方正仿宋_GBK", "FZFangSong-Z02", "仿宋_GB2312", "仿宋", FangSong, STFangsong, "FangSong_GB2312", serif;
   --gw-font-hei: "GW Latin", "GW Hei", "方正黑体_GBK", "FZHei-B01", "黑体", SimHei, "Heiti SC", STHeiti, "Noto Sans CJK SC", "Source Han Sans SC", sans-serif;
   --gw-font-kai: "GW Latin", "GW Kai", "方正楷体_GBK", "FZKai-Z03", "楷体_GB2312", "楷体", KaiTi, STKaiti, "Kaiti SC", serif;
-  --gw-font-xbs: "GW XiaoBiaoSong", "方正小标宋_GBK", "方正小标宋简体", "FZXiaoBiaoSong-B05", "FZXiaoBiaoSong-B05S", "华文中宋", STZhongsong, "宋体", SimSun, "Noto Serif CJK SC", serif;
+  /* XiaoBiaoSong only; soft Song fallbacks live in --gw-font-xbs-fallback for JS recovery. */
+  --gw-font-xbs: "GW XiaoBiaoSong", "方正小标宋_GBK", "方正小标宋简体", "FZXiaoBiaoSong-B05", "FZXiaoBiaoSong-B05S";
+  --gw-font-xbs-fallback: "GW XiaoBiaoSong", "方正小标宋_GBK", "方正小标宋简体", "FZXiaoBiaoSong-B05", "FZXiaoBiaoSong-B05S", "华文中宋", STZhongsong, "宋体", SimSun, "Noto Serif CJK SC", serif;
   --gw-font-song: @font-song;
 
   /* Notice in the side margins, against passing pages off as real 公文.

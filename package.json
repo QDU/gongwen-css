@@ -27,13 +27,16 @@
     ".": "./dist/gongwen.css",
     "./gongwen.css": "./dist/gongwen.css",
     "./gongwen.min.css": "./dist/gongwen.min.css",
+    "./gongwen-xbs.js": "./dist/gongwen-xbs.js",
     "./gongwen.less": "./src/gongwen.less",
     "./package.json": "./package.json"
   },
   "files": [
     "dist/gongwen.css",
     "dist/gongwen.min.css",
-    "src/gongwen.less"
+    "dist/gongwen-xbs.js",
+    "src/gongwen.less",
+    "src/gongwen-xbs.js"
   ],
   "publishConfig": {
     "access": "public"
