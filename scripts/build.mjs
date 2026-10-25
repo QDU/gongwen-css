@@ -31,6 +31,7 @@ await rm(output, { recursive: true, force: true });
 await mkdir(resolve(output, 'samples'), { recursive: true });
 await writeFile(resolve(output, 'gongwen.css'), css);
 await writeFile(resolve(output, 'gongwen.min.css'), minified);
+await copyFile(resolve(root, 'src/gongwen-xbs.js'), resolve(output, 'gongwen-xbs.js'));
 await copyFile(resolve(root, 'src/guide.html'), resolve(output, 'guide.html'));
 await copyFile(resolve(root, 'src/guide.css'), resolve(output, 'guide.css'));
 await copyFile(resolve(root, 'src/guide.html'), resolve(output, 'index.html'));
@@ -44,4 +45,4 @@ await writeFile(resolve(output, 'samples/index.html'), `<!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>公文示例</title><link rel="stylesheet" href="../guide.css"></head>
 <body><main class="guide"><h1>公文示例</h1><p><a href="../index.html">编写指南</a></p><ul>${links}</ul></main></body></html>`);
 await writeFile(resolve(output, '.nojekyll'), '');
-console.log(`Built dist/ with ${rendered.length} Markdown samples, guide, and compiled CSS.`);
+console.log(`Built dist/ with ${rendered.length} Markdown samples, guide, compiled CSS, and gongwen-xbs.js.`);
