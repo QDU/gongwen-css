@@ -11,7 +11,7 @@
  */
 
 const XBS_LOCAL_FAMILIES = [
-  'GW XiaoBiaoSong',
+  'FZXiaoBiaoSong',
   '方正小标宋_GBK',
   '方正小标宋简体',
   'FZXiaoBiaoSong-B05',
@@ -19,10 +19,10 @@ const XBS_LOCAL_FAMILIES = [
 ];
 
 /** CSS / PDF-facing family for all remote glyph faces. */
-export const SHARED_FAMILY = 'GW XiaoBiaoSong';
+export const SHARED_FAMILY = 'FZXiaoBiaoSong';
 
-/** PostScript name written into patched glyph files (no spaces). */
-export const SHARED_POSTSCRIPT = 'GWXiaoBiaoSong';
+/** PostScript name written into patched glyph files. */
+export const SHARED_POSTSCRIPT = 'FZXiaoBiaoSong';
 
 const GLYPH_BASE =
   'https://cdn1.foundertype.com/Public/shop1/Home/font/f219af0b538053a3b0254c8d1a19bcf0/FZXBSJW/';
@@ -338,7 +338,7 @@ async function enhanceElement(el) {
   const ok = results.some(Boolean);
   el.dataset.gwXbs = ok ? 'remote' : 'fallback';
   if (ok) {
-    // Restore XiaoBiaoSong-first stack; loaded faces fill GW XiaoBiaoSong.
+    // Restore XiaoBiaoSong-first stack; loaded faces fill FZXiaoBiaoSong.
     el.style.fontFamily = '';
   } else {
     el.style.fontFamily = 'var(--gw-font-xbs-fallback)';

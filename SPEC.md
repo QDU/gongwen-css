@@ -92,7 +92,7 @@
   - 仿宋（fangsong）：`"GW Latin", "方正仿宋_GBK", "FZFangSong-Z02", "仿宋_GB2312", "仿宋", FangSong, STFangsong, "FangSong_GB2312", serif`
   - 黑体（hei）：`"GW Latin", "方正黑体_GBK", "FZHei-B01", "黑体", SimHei, "Heiti SC", STHeiti, "Noto Sans CJK SC", "Source Han Sans SC", sans-serif`
   - 楷体（kai）：`"GW Latin", "方正楷体_GBK", "FZKai-Z03", "楷体_GB2312", "楷体", KaiTi, STKaiti, "Kaiti SC", serif`
-  - 小标宋（xbs）：`"GW XiaoBiaoSong", "方正小标宋_GBK", "方正小标宋简体", "FZXiaoBiaoSong-B05", "FZXiaoBiaoSong-B05S"`（不含宋体类软回退；完整回退栈见 `--gw-font-xbs-fallback`）
+  - 小标宋（xbs）：`"FZXiaoBiaoSong", "方正小标宋_GBK", "方正小标宋简体", "FZXiaoBiaoSong-B05", "FZXiaoBiaoSong-B05S"`（不含宋体类软回退；完整回退栈见 `--gw-font-xbs-fallback`）
   - 小标宋回退（xbs-fallback）：在 xbs 栈之后追加 `"华文中宋", STZhongsong, "宋体", SimSun, "Noto Serif CJK SC", serif`；供可选脚本在远程字形加载失败时恢复
   - 宋体（song）：`"GW Song", "宋体", SimSun, "Songti SC", STSong, "Noto Serif CJK SC Regular", "NotoSerifCJKsc-Regular", "Source Han Serif SC Regular", serif`
 - `@page` 边距框不继承自定义属性，因此生成的 CSS 在此处直接写出页码字体栈。

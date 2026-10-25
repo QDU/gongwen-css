@@ -4,7 +4,7 @@
 
 ### 新增
 
-- 可选脚本 `gongwen-xbs.js`：标题等小标宋节点优先用本地字体，否则按字加载远程 WOFF（共享 `GW XiaoBiaoSong` 族名与 `unicode-range`，并改写 name 表便于 PDF 识别），失败时恢复 `--gw-font-xbs-fallback`。
+- 可选脚本 `gongwen-xbs.js`：标题等小标宋节点优先用本地字体，否则按字加载远程 WOFF（共享 `FZXiaoBiaoSong` 族名与 `unicode-range`，并改写 name 表便于 PDF 识别），失败时恢复 `--gw-font-xbs-fallback`。
 - 自定义属性 `--gw-font-xbs-fallback`，保留原先含宋体类的软回退栈。
 
 ### 变更
