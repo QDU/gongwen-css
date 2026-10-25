@@ -125,7 +125,7 @@ import '@qdu/gongwen-css';
 
 ### 可选：标题小标宋动态字形
 
-样式表本身仍不依赖 JavaScript。若本机未安装方正小标宋，可额外引入 `gongwen-xbs.js`：脚本检测本地小标宋，缺失时按字加载远程 WOFF，失败则回退到 `--gw-font-xbs-fallback`。指南与示例默认启用；自建页面建议同时设置 `Referrer-Policy: no-referrer`（或 `<meta name="referrer" content="no-referrer">`），并：
+样式表本身仍不依赖 JavaScript。若本机未安装方正小标宋，可额外引入 `gongwen-xbs.js`：脚本检测本地小标宋，缺失时按字加载远程 WOFF（统一注册为 `GW XiaoBiaoSong`，带 `unicode-range`，便于打印 PDF 的字体列表识别），失败则回退到 `--gw-font-xbs-fallback`。指南与示例默认启用；自建页面建议同时设置 `Referrer-Policy: no-referrer`（或 `<meta name="referrer" content="no-referrer">`），并：
 
 ```html
 <script type="module" src="https://cdn.jsdelivr.net/npm/@qdu/gongwen-css@latest/dist/gongwen-xbs.js"></script>

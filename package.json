@@ -42,7 +42,9 @@
     "access": "public"
   },
   "sideEffects": [
-    "*.css"
+    "*.css",
+    "./dist/gongwen-xbs.js",
+    "./src/gongwen-xbs.js"
   ],
   "scripts": {
     "build": "node scripts/build.mjs",
